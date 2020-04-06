@@ -6,7 +6,11 @@ import {OrganizationMembersComponent} from './organization-members/organization-
 const routes: Routes = [
   {
     path: '',
-    component: OrganizationMembersComponent
+    component: OrganizationMembersComponent,
+  },
+  {
+    path: ':memberId',
+    loadChildren: () => import('./organization-member-info/organization-member-info.module').then(m => m.OrganizationMemberInfoModule)
   }
 ];
 

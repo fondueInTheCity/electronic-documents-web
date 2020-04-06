@@ -6,6 +6,8 @@ import {SERVER} from '../../../utils/endpoints';
 import {OrganizationView} from '../models/organization-view';
 import {OrganizationMember} from '../models/organization-member';
 import {OrganizationSettings} from '../models/organization-settings';
+import {OrganizationJoin} from '../models/organization-join';
+import {OrganizationOffer} from '../models/organization-offer';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +32,8 @@ export class OrganizationService {
   getOrganizationSettings(organizationId: number): Observable<OrganizationSettings> {
     return this.http.get<OrganizationSettings>(`${SERVER}/organizations/${organizationId}/settings`);
   }
-}
 
+  joinToOrganization(organizationJoin: OrganizationJoin): Observable<void> {
+    return this.http.post<void>(`${SERVER}/organizations`, organizationJoin);
+  }
+}

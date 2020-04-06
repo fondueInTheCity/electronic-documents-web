@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
+import {OrganizationService} from '../../services/organization.service';
 
 @Component({
   selector: 'app-join-organizations',
@@ -8,12 +9,14 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class JoinOrganizationsComponent implements OnInit {
   joinForm = new FormGroup({
-    name: new FormControl()
+    organizationToken: new FormControl(),
+    username: new FormControl()
   });
 
-  constructor() { }
+  constructor(private organizationService: OrganizationService) { }
 
   ngOnInit(): void {
+    
   }
 
   onSubmit() {

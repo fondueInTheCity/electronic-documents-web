@@ -1,1 +1,7 @@
-<p>offer-organizations works!</p>
+<div *ngFor="let i of offers " class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">
+      {{i.organizationName}}
+    </h5>
+  </div>
+</div>

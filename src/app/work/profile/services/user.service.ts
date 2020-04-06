@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {UserDashboard} from '../dashboard/models/UserDashboard';
 import {SERVER} from '../../../utils/endpoints';
 import {OrganizationInfo} from '../../organizations/models/organization-info';
+import {OrganizationOffer} from '../../organizations/models/organization-offer';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +23,9 @@ export class UserService {
 
   getOrganizationsInfo(username: string): Observable<OrganizationInfo[]> {
     return this.http.get<OrganizationInfo[]>(`${SERVER}/users/${username}/organizations`);
+  }
+
+  getOrganizationsOffers(username: string): Observable<OrganizationOffer[]> {
+    return this.http.get<OrganizationOffer[]>(`${SERVER}/users/${username}/offers`);
   }
 }

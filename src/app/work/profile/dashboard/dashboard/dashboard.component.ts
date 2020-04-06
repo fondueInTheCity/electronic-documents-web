@@ -22,7 +22,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   });
   username: string;
   getSubscription: Subscription;
-  updateSubscription: Subscription;
 
 
   constructor(private service: UserService,
@@ -45,6 +44,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.getSubscription.unsubscribe();
-    this.updateSubscription.unsubscribe();
   }
 }
