@@ -15,8 +15,8 @@ const httpOptions = {
 })
 export class AuthService {
 
-  private loginUrl = `http://${environment.serverUrl}/auth/signin`;
-  private signupUrl = `http://${environment.serverUrl}/auth/signup`;
+  private loginUrl = `https://${environment.serverUrl}/auth/signin`;
+  private signupUrl = `https://${environment.serverUrl}/auth/signup`;
 
   constructor(private http: HttpClient) { }
 
