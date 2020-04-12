@@ -1,1 +1,55 @@
-<p>organizations-documents works!</p>
+<div class="container">
+  <form [formGroup]="uploadingForm">
+    <input type="file" [formControlName]="'file'" ng2FileSelect [uploader]="uploader" />
+    <button type="button" class="btn btn-success btn-s"
+            (click)="uploader?.uploadAll()"
+            [disabled]="!uploader?.getNotUploadedItems().length" >
+      Upload
+    </button>
+  </form>
+</div>
+
+<img *ngFor="let document of documents" [src]="document.publicUrl">
+
+<!--<div class="row">-->
+<!--  <div class="col-md-4">-->
+<!--    <h4>Only males</h4>-->
+<!--    <div [dndList]="{-->
+<!--        allowedTypes: ['male']}"-->
+<!--         [dndModel]="typedList[0]">-->
+<!--      <div *ngFor="let item of typedList[0]"-->
+<!--           class="col-md-12"-->
+<!--           [dndType]="item.type"-->
+<!--           (dndMoved)="removeItem(item, typedList[0])"-->
+<!--           [dndDraggable]-->
+<!--           [dndObject]="item">{{item.name}}</div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="col-md-4">-->
+<!--    <h4>Only females</h4>-->
+<!--    <div [dndList]="{-->
+<!--        allowedTypes: ['female']}"-->
+<!--         [dndModel]="typedList[1]">-->
+<!--      <div *ngFor="let item of typedList[1]"-->
+<!--           class="col-md-12"-->
+<!--           [dndType]="item.type"-->
+<!--           (dndMoved)="removeItem(item, typedList[1])"-->
+<!--           [dndDraggable]-->
+<!--           [dndObject]="item">{{item.name}}</div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="col-md-4">-->
+<!--    <h4>People</h4>-->
+<!--    <div [dndList]="{-->
+<!--      allowedTypes: ['male','female']}"-->
+<!--         [dndModel]="typedList[2]">-->
+<!--      <div *ngFor="let item of typedList[2]"-->
+<!--           class="col-md-12"-->
+<!--           [dndType]="item.type"-->
+<!--           (dndMoved)="removeItem(item, typedList[2])"-->
+<!--           [dndDraggable]-->
+<!--           [dndObject]="item">{{item.name}}</div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

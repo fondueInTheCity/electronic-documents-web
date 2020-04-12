@@ -2,12 +2,11 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {OrganizationCreate} from '../models/organization-create';
 import {Observable} from 'rxjs';
-import {SERVER} from '../../../utils/endpoints';
 import {OrganizationView} from '../models/organization-view';
 import {OrganizationMember} from '../models/organization-member';
 import {OrganizationSettings} from '../models/organization-settings';
 import {OrganizationJoin} from '../models/organization-join';
-import {OrganizationOffer} from '../models/organization-offer';
+import {environment} from '../../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -18,22 +17,22 @@ export class OrganizationService {
   }
 
   createOrganization(organizationCreate: OrganizationCreate): Observable<void> {
-    return this.http.post<void>(`${SERVER}/organizations`, organizationCreate);
+    return this.http.post<void>(`${environment.serverUrl}/organizations`, organizationCreate);
   }
 
   getView(organizationId: number): Observable<OrganizationView> {
-    return this.http.get<OrganizationView>(`${SERVER}/organizations/${organizationId}`);
+    return this.http.get<OrganizationView>(`${environment.serverUrl}/organizations/${organizationId}`);
   }
 
   getMembers(organizationId: number): Observable<OrganizationMember[]> {
-    return this.http.get<OrganizationMember[]>(`${SERVER}/organizations/${organizationId}/members`);
+    return this.http.get<OrganizationMember[]>(`${environment.serverUrl}/organizations/${organizationId}/members`);
   }
 
   getOrganizationSettings(organizationId: number): Observable<OrganizationSettings> {
-    return this.http.get<OrganizationSettings>(`${SERVER}/organizations/${organizationId}/settings`);
+    return this.http.get<OrganizationSettings>(`${environment.serverUrl}/organizations/${organizationId}/settings`);
   }
 
   joinToOrganization(organizationJoin: OrganizationJoin): Observable<void> {
-    return this.http.post<void>(`${SERVER}/organizations`, organizationJoin);
+    return this.http.post<void>(`${environment.serverUrl}/organizations`, organizationJoin);
   }
 }
