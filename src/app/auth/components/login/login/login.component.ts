@@ -1,50 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {AuthService} from '../../../services/auth.service';
 import {TokenStorageService} from '../../../services/token-storage.service';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {Pattern} from '../../../../utils/pattern';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less']
 })
-export class LoginComponent implements OnInit {
-  loginForm = new FormGroup({
-    username: new FormControl(),
-    password: new FormControl()
+export class LoginComponent implements OnDestroy {
+  pattern = new Pattern();
+  loginForm = this.fb.group({
+    username: ['', [Validators.required, Validators.pattern(this.pattern.usernamePattern)]],
+    password: ['', [Validators.required, Validators.pattern(this.pattern.passwordPattern)]]
   });
-
-  loggedIn = false;
   loginFailed = false;
-  errorMessage = '';
+  loginSubscription: Subscription;
 
   constructor(private authService: AuthService,
               private tokenStorage: TokenStorageService,
-              private router: Router) { }
-
-  ngOnInit() {
-    if (this.tokenStorage.getToken()) {
-      this.loggedIn = true;
-    }
+              private router: Router,
+              private fb: FormBuilder) {
   }
 
   onSubmit() {
-    this.authService.attemptAuth(this.loginForm.value).subscribe(
+    this.loginSubscription = this.authService.attemptAuth(this.loginForm.value).subscribe(
       data => {
-        this.tokenStorage.saveToken(data.token);
-        this.tokenStorage.saveUsername(data.username);
-        this.tokenStorage.saveId(data.id);
-
-        this.loginFailed = false;
-        this.loggedIn = true;
+        this.tokenStorage.saveData(data.token, data.username, data.id);
         this.router.navigate(['/']);
       },
       error => {
-        console.log(error);
-        this.errorMessage = error.error.message;
         this.loginFailed = true;
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    if (this.loginSubscription) {
+      this.loginSubscription.unsubscribe();
+    }
   }
 }

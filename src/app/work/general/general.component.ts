@@ -14,7 +14,6 @@ export class GeneralComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.username = this.tokenService.getUsername();
   }
 
 }

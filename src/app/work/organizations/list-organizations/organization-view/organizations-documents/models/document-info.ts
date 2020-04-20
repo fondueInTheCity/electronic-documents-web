@@ -1,7 +1,7 @@
 export class DocumentInfo {
   id: number;
   name: string;
+  organizationId: number;
   ownerId: number;
-  ownerUsername: string;
-  publicUrl: string;
+  documentState: string;
 }

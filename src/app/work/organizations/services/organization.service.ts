@@ -32,6 +32,10 @@ export class OrganizationService {
     return this.http.get<OrganizationSettings>(`${environment.serverUrl}/organizations/${organizationId}/settings`);
   }
 
+  updateOrganizationSettings(organizationId: number, organizationSettings: OrganizationSettings): Observable<void> {
+    return this.http.put<void>(`${environment.serverUrl}/organizations/${organizationId}/settings`, organizationSettings);
+  }
+
   joinToOrganization(organizationJoin: OrganizationJoin): Observable<void> {
     return this.http.post<void>(`${environment.serverUrl}/organizations`, organizationJoin);
   }

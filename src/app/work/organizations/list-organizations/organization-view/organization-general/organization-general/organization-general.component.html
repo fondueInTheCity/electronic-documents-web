@@ -1,31 +1,13 @@
 <div class="row">
   <div class="col-md-12">
-    <h4>Your Profile</h4>
-    <hr>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    <form [formGroup]="generalForm" (ngSubmit)="onSubmit()">
-      <div class="form-group row">
-        <label for="name" class="col-4 col-form-label">Organization Name</label>
-        <div class="col-8">
-          <input id="name" formControlName="name" placeholder="Name" class="form-control"
-                 type="text">
-        </div>
+      <div class="row">
+        <h3>Organization Name: {{organizationView.name}}</h3>
       </div>
-      <div class="form-group row">
-        <label for="ownerUsername" class="col-4 col-form-label">Owner Username</label>
-        <div class="col-8">
-          <input id="ownerUsername" formControlName="ownerUsername" placeholder="Owner Username" class="form-control"
-                 type="text">
-        </div>
+      <div class="row">
+        <h3>Owner Username: {{organizationView.ownerUsername}}</h3>
       </div>
-      <div class="form-group row">
-        <div class="offset-4 col-8">
-          <button name="submit" type="submit" class="btn btn-primary">Update Organization</button>
-        </div>
-      </div>
-    </form>
+    <div class="row">
+      <h3>Organization Type: {{organizationView.organizationType}}</h3>
+    </div>
   </div>
 </div>

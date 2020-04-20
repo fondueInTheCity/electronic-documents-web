@@ -1,3 +1,5 @@
 export class OrganizationSettings {
-  joinToken: string;
+  id: number;
+  name: string;
+  organizationType: string;
 }

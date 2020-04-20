@@ -19,6 +19,12 @@ export class TokenStorageService {
     window.sessionStorage.clear();
   }
 
+  public saveData(token: string, username: string, id: number) {
+    this.saveToken(token);
+    this.saveUsername(username);
+    this.saveId(id);
+  }
+
   public saveToken(token: string) {
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, token);

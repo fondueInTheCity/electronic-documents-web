@@ -1,60 +1,85 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrganizationService} from '../../../../services/organization.service';
-import {ActivatedRoute, Params} from '@angular/router';
-import {FileUploader} from 'ng2-file-upload';
-import {FormBuilder} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
 import {DocumentsService} from '../services/documents.service';
-import {map, mergeMap, tap} from 'rxjs/operators';
-import {OrganizationMember} from '../../../../models/organization-member';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {TokenStorageService} from '../../../../../../auth/services/token-storage.service';
 import {DocumentInfo} from '../models/document-info';
-import {environment} from '../../../../../../../environments/environment.prod';
-import {TOKEN_HEADER_KEY} from '../../../../../../auth/services/auth-interceptor';
+import {HttpEventType, HttpResponse} from '@angular/common/http';
+import {OrganizationDocumentsInfo} from '../models/organization-documents-info';
 
 @Component({
   selector: 'app-organizations-documents',
   templateUrl: './organizations-documents.component.html',
   styleUrls: ['./organizations-documents.component.less']
 })
-export class OrganizationsDocumentsComponent implements OnInit {
-  public uploader: FileUploader;
+export class OrganizationsDocumentsComponent implements OnInit, OnDestroy {
   organizationId: number;
-  uploadingForm = this.fb.group({
-    file: []
-  });
+  userId: number;
   documents: DocumentInfo[];
   getSubscription: Subscription;
+  uploadSubscription: Subscription;
+  getFilesSubscription: Subscription;
+
+  selectedFiles: FileList;
+  currentFile: File;
+  progress = 0;
+  message = '';
+
+  filesInfo: OrganizationDocumentsInfo;
 
 
   constructor(private organizationService: OrganizationService,
               private activatedRoute: ActivatedRoute,
-              private fb: FormBuilder,
               private documentsService: DocumentsService,
               private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
-    const userId = this.tokenStorageService.getId();
-    this.getSubscription = this.activatedRoute.parent.parent.parent.params.pipe(
-      map((params: Params) => params.organizationId),
-      tap(organizationId => this.organizationId = organizationId),
-      mergeMap((organizationId: number) => this.documentsService.getMyOrganizationDocumentsInfo(organizationId, userId))
-    ).subscribe((data) => {
-      this.documents = data;
-      this.uploader = new FileUploader({
-        url: `${environment.serverUrl}/documents/organization/${this.organizationId}/user/${userId}`,
-        itemAlias: 'file',
-        authTokenHeader: TOKEN_HEADER_KEY,
-        authToken: `Bearer ${this.tokenStorageService.getToken()}`
-      });
-      this.uploader.onAfterAddingFile = (file) => {
-        file.withCredentials = false;
-      };
-      this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-        console.log('FileUpload:uploaded successfully:', item, status, response);
-        alert('Your file has been uploaded successfully');
-      };
+    this.userId = this.tokenStorageService.getId();
+    this.getSubscription = this.activatedRoute.parent.parent.parent.params.subscribe((params) => {
+      this.organizationId = params.organizationId;
+      this.getFiles();
     });
+  }
+
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+  }
+
+  upload() {
+    this.progress = 0;
+
+    this.currentFile = this.selectedFiles.item(0);
+    this.documentsService.upload(this.currentFile, this.organizationId, this.userId).subscribe(
+      event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          this.getFiles();
+        }
+      },
+      err => {
+        this.progress = 0;
+        this.message = 'Could not upload the file!';
+        this.currentFile = undefined;
+      });
+
+    this.selectedFiles = undefined;
+  }
+
+  private getFiles(): void {
+    this.getFilesSubscription = this.documentsService.getMyOrganizationDocumentsInfo(this.organizationId, this.userId)
+      .subscribe((data) =>
+        this.filesInfo = data
+      );
+  }
+
+  ngOnDestroy(): void {
+    this.getSubscription.unsubscribe();
+    this.getFilesSubscription.unsubscribe();
+    if (this.uploadSubscription) {
+      this.uploadSubscription.unsubscribe();
+    }
   }
 }

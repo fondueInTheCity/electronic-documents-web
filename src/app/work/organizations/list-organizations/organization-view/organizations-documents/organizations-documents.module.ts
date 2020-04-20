@@ -13,8 +13,7 @@ import {FileUploadModule} from 'ng2-file-upload';
     CommonModule,
     OrganizationsDocumentsRoutingModule,
     ReactiveFormsModule,
-    FileUploadModule,
-    // DndListModule,
+    FileUploadModule
   ]
 })
 export class OrganizationsDocumentsModule { }

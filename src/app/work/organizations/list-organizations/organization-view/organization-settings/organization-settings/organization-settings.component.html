@@ -1,1 +1,25 @@
-<h2>Token:  {{organizationSettings.joinToken}}</h2>
+<div class="row">
+  <div class="col-md-12">
+    <form [formGroup]="generalForm" (ngSubmit)="onSubmit()">
+      <div class="form-group row">
+        <label for="name" class="col-4 col-form-label">Organization Name</label>
+        <div class="col-8">
+          <input id="name" formControlName="name" placeholder="Name" class="form-control"
+                 type="text">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="organizationType" class="col-4 col-form-label">Organization Type</label>
+        <div class="col-8">
+          <input id="organizationType" formControlName="organizationType" placeholder="Organization Type"
+                 class="form-control" type="text">
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="offset-4 col-8">
+          <button name="submit" type="submit" class="btn btn-primary">Update Organization</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
