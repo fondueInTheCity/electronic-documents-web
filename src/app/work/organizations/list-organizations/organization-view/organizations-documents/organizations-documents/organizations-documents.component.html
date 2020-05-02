@@ -30,7 +30,7 @@
       <br>
       <ul>
         <li *ngFor="let i of filesInfo?.waitingDocuments">
-          <a [routerLink]="['./', i.id]">{{i.name}}</a>
+          <a [routerLink]="['/documents', i.id]">{{i.name}}</a>
         </li>
       </ul>
     </div>
@@ -39,7 +39,16 @@
       <br>
       <ul>
         <li *ngFor="let i of filesInfo?.progressDocuments">
-          <a [routerLink]="['./', i.id]">{{i.name}}</a>
+          <a [routerLink]="['/documents', i.id]">{{i.name}}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm">
+      Join To Me
+      <br>
+      <ul>
+        <li *ngFor="let i of filesInfo?.joinToMeDocuments">
+          <a [routerLink]="['/documents', i.id]">{{i.name}}</a>
         </li>
       </ul>
     </div>
@@ -48,7 +57,7 @@
       <br>
       <ul>
         <li *ngFor="let i of filesInfo?.answeredDocuments">
-          <a [routerLink]="['./', i.id]">{{i.name}}</a>
+          <a [routerLink]="['/documents', i.id]">{{i.name}}</a>
         </li>
       </ul>
     </div>

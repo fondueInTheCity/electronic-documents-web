@@ -1,5 +1,4 @@
 export class OrganizationOffer {
-  organizationId: number;
-  organizationName: string;
+  id: number;
   ownerUsername: string;
 }

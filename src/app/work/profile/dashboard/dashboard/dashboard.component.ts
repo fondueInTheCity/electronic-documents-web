@@ -5,6 +5,8 @@ import {Subscription} from 'rxjs';
 import {UserDashboard} from '../models/UserDashboard';
 import {map, mergeMap} from 'rxjs/operators';
 import {UserService} from '../../services/user.service';
+import {TokenStorageService} from '../../../../auth/services/token-storage.service';
+import {UtilService} from '../../../../utils/util.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,15 +27,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
   constructor(private service: UserService,
-              private activatedRoute: ActivatedRoute) {
+              private tokenStorageService: TokenStorageService,
+              private utilService: UtilService) {
   }
 
   ngOnInit(): void {
-    this.getSubscription = this.activatedRoute.parent.parent.params.pipe(
-      map((params: Params) => params.username),
-      mergeMap((username: string) => this.service.getDashboard(username))
-    ).subscribe((data: UserDashboard) => {
-      this.username = data.username;
+    this.username = this.tokenStorageService.getUsername();
+    this.utilService.unsubscribe(this.getSubscription);
+    this.getSubscription = this.service.getDashboard(this.username).subscribe((data: UserDashboard) => {
       this.dashboardForm.reset(data);
     });
   }
@@ -43,6 +44,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getSubscription.unsubscribe();
+    this.utilService.unsubscribe(this.getSubscription);
   }
 }

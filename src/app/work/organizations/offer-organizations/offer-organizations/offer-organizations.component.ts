@@ -3,6 +3,9 @@ import {OrganizationOffer} from '../../models/organization-offer';
 import {UserService} from '../../../profile/services/user.service';
 import {TokenStorageService} from '../../../../auth/services/token-storage.service';
 import {Subscription} from 'rxjs';
+import {FormBuilder} from '@angular/forms';
+import {UtilService} from '../../../../utils/util.service';
+import {OrganizationService} from '../../services/organization.service';
 
 @Component({
   selector: 'app-offer-organizations',
@@ -10,19 +13,45 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./offer-organizations.component.less']
 })
 export class OfferOrganizationsComponent implements OnInit, OnDestroy {
-  offers: OrganizationOffer[];
   getSubscription: Subscription;
+  answerSubscription: Subscription;
+  userRequests: OrganizationOffer[];
+  organizationRequests: OrganizationOffer[];
+  current: OrganizationOffer;
 
-  constructor(private userService: UserService,
-              private tokenStorageService: TokenStorageService) { }
+  constructor(private service: UserService,
+              private fb: FormBuilder,
+              private utilService: UtilService,
+              private tokenStorageService: TokenStorageService,
+              private organizationService: OrganizationService) {
+  }
 
-  ngOnInit(): void {
-    this.getSubscription = this.userService.getOrganizationsOffers(this.tokenStorageService.getUsername()).subscribe(data =>
-      this.offers = data
-    );
+  async ngOnInit() {
+    await this.getRequests();
   }
 
   ngOnDestroy(): void {
-    this.getSubscription.unsubscribe();
+    this.utilService.unsubscribe(this.getSubscription);
+  }
+
+  async sendAnswer(answer: boolean, offerId: number) {
+    this.utilService.unsubscribe(this.answerSubscription);
+    this.answerSubscription = this.organizationService.answerOffer({offerId, answer})
+      .subscribe(async () => {
+          this.getRequests();
+        });
+  }
+
+  async getRequests() {
+    this.utilService.unsubscribe(this.getSubscription);
+    this.getSubscription = this.service.getOrganizationsOffers(this.tokenStorageService.getUsername())
+      .subscribe(async (data) => {
+          this.userRequests = data.userRequests;
+          this.organizationRequests = data.organizationRequests;
+        });
+  }
+
+  setCurrent(item: OrganizationOffer) {
+    this.current = item;
   }
 }

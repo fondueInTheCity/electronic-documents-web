@@ -25,6 +25,7 @@
     "bootstrap": "^4.4.1",
     "express": "^4.17.1",
     "jquery": "^3.4.1",
+    "ng-multiselect-dropdown": "^0.2.10",
     "ng2-file-upload": "^1.4.0",
     "ngx-drag-and-drop-lists": "^1.2.5",
     "ngx-drag-drop": "^2.0.0",

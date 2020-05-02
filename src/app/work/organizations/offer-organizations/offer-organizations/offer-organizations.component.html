@@ -1,7 +1,46 @@
-<div *ngFor="let i of offers " class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">
-      {{i.organizationName}}
-    </h5>
+<label>
+  My Requests:
+</label>
+<ul *ngIf="userRequests?.length > 0">
+  <li *ngFor="let item of userRequests">
+    {{item.ownerUsername}}
+  </li>
+
+</ul>
+<label *ngIf="!userRequests || userRequests?.length == 0">Nothing requests</label>
+<label>
+  Organization's Requests:
+</label>
+<ul *ngIf="organizationRequests?.length > 0">
+  <li *ngFor="let item of organizationRequests">
+    <button (click)="setCurrent(item)" type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#exampleModal">
+      {{item.ownerUsername}}
+    </button>
+  </li>
+
+</ul>
+<label *ngIf="!organizationRequests || organizationRequests?.length == 0">Nothing requests</label>
+
+<div *ngIf="current" class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Do you want to approve this request?</h5>
+      </div>
+      <div class="modal-body">
+        <p>
+          {{current?.ownerUsername}}
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="sendAnswer(false, current?.id)" data-dismiss="modal">
+          No
+        </button>
+        <button type="button" class="btn btn-primary" (click)="sendAnswer(true, current?.id)">Yes</button>
+      </div>
+    </div>
   </div>
 </div>

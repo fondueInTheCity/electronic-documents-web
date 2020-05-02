@@ -1,8 +1,9 @@
 import {DocumentInfo} from './document-info';
 
-export class OrganizationDocumentsInfo {
+export class MyOrganizationDocumentsInfo {
   heapDocuments: DocumentInfo[];
   waitingDocuments: DocumentInfo[];
   progressDocuments: DocumentInfo[];
+  joinToMeDocuments: DocumentInfo[];
   answeredDocuments: DocumentInfo[];
 }

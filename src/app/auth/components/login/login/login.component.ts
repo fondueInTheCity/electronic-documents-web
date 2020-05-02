@@ -28,8 +28,9 @@ export class LoginComponent implements OnDestroy {
 
   onSubmit() {
     this.loginSubscription = this.authService.attemptAuth(this.loginForm.value).subscribe(
-      data => {
+      (data) => {
         this.tokenStorage.saveData(data.token, data.username, data.id);
+        this.tokenStorage.saveListId(data.organizationsId);
         this.router.navigate(['/']);
       },
       error => {

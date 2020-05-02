@@ -1,9 +1,14 @@
 <div *ngFor="let i of organizationsInfo " class="card" style="width: 18rem;">
-  <img src="https://www.drinksdirect.co.uk/acatalog/jagermeister-miniature-4cl.jpg">
+  <img class="card-img-top" src="https://www.drinksdirect.co.uk/acatalog/jagermeister-miniature-4cl.jpg" alt="Card image cap">
 
   <div class="card-body">
     <h5 class="card-title">
-      <a [routerLink]="['./', i.id]">{{i.name}}</a>
+      {{i?.name}}
     </h5>
+    <p>
+      <label>Owner Username: {{i?.ownerUsername}}</label>
+      <br>
+      <a (click)="saveOrganizationId(i.id)" [routerLink]="['./', i.id, 'members']">To Organization view</a>
+    </p>
   </div>
 </div>

@@ -9,14 +9,6 @@ const routes: Routes = [
     component: OrganizationViewComponent,
     children: [
       {
-        path: '',
-        redirectTo: 'general'
-      },
-      {
-        path: 'general',
-        loadChildren: () => import('./organization-general/organization-general.module').then(m => m.OrganizationGeneralModule)
-      },
-      {
         path: 'members',
         loadChildren: () => import('./organization-members/organization-members.module').then(m => m.OrganizationMembersModule)
       },

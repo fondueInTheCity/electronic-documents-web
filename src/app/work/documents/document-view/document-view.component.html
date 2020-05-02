@@ -1,6 +1,6 @@
-<div class="row">
-  <div class="col-md-12">
-    <form [formGroup]="documentViewForm" (ngSubmit)="onSubmit()">
+<div class="row" *ngIf="show">
+  <div class="col-md-8">
+    <form *ngIf="state === 'HEAP'" [formGroup]="heapForm" (ngSubmit)="onSubmitHeap()">
       <div class="form-group row">
         <label for="name" class="col-4 col-form-label">Document Name</label>
         <div class="col-8">
@@ -8,23 +8,76 @@
                  type="text">
         </div>
       </div>
+
       <div class="form-group row">
-        <label for="createDate" class="col-4 col-form-label">Create Date</label>
+        <label class="col-4 col-form-label">Roles</label>
         <div class="col-8">
-          <input id="createDate" formControlName="createDate" placeholder="Create Date" class="form-control here" type="date">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="state" class="col-4 col-form-label">State</label>
-        <div class="col-8">
-          <input id="state" formControlName="state" placeholder="State" class="form-control here" type="text">
+          <ng-multiselect-dropdown
+            [settings]="dropdownSettings"
+            [placeholder]="'Roles'"
+            [data]="allRoles"
+            formControlName="roles"
+            [(ngModel)]="selectedItems">
+          </ng-multiselect-dropdown>
+<!--          <select id="roles" formControlName="roles" multiple class="form-control">-->
+<!--            <option *ngFor="let role of allRoles" [value]="role.id">{{role.name}}</option>-->
+<!--          </select>-->
         </div>
       </div>
       <div class="form-group row">
         <div class="offset-4 col-8">
-          <button name="submit" type="submit" class="btn btn-primary">Update My Profile</button>
+          <button name="submit" type="submit" class="btn btn-primary">Approve Heap Document</button>
         </div>
       </div>
     </form>
+    <form *ngIf="state === 'WAITING'" [formGroup]="waitingForm">
+      <h1>In Waiting</h1>
+      <div class="form-group row">
+        <label>Name</label>
+        <input type="text" formControlName="name" placeholder="Name" required readonly>
+      </div>
+      <div class="form-group row">
+        <label>Organization Name</label>
+        <input type="text" formControlName="organizationName" placeholder="Organization Name"
+               required readonly>
+      </div>
+      <div class="form-group row">
+        <label>Count</label>
+        <input type="text" formControlName="count" placeholder="Count" required readonly>
+      </div>
+    </form>
+    <div *ngIf="state === 'PENDING'">
+      <h1>In Progress</h1>
+      <br>
+      <label>Document Name: {{pendingDocumentView.name}}</label>
+      <br>
+      <label>Organization Name: {{pendingDocumentView.organizationName}}</label>
+      <br>
+      <label>Answers count: {{this.countAnswered}}</label>
+      <br>
+      <label *ngFor="let answer of pendingDocumentView.answers">{{answer.username}}:  {{answer.answer}}</label>
+      <br>
+    </div>
+    <div *ngIf="state === 'JOIN_TO_ME'">
+      <h1>Join To Me</h1>
+      <button *ngIf="!downloaded" (click)="downloadFile()">Download File</button>
+
+      <button *ngIf="downloaded" (click)="openFile()">Open File</button>
+
+      <button *ngIf="downloaded" size="large" (click)="onSubmitJoinToMe(false)">Deny</button>
+      <button *ngIf="downloaded" size="large" (click)="onSubmitJoinToMe(true)">Approve</button>
+
+    </div>
+    <div *ngIf="state === 'ANSWERED'">
+      <h1>In Progress</h1>
+      <br>
+      <label>Document Name: {{answeredDocument.name}}</label>
+      <br>
+      <label>Organization Name: {{answeredDocument.organizationName}}</label>
+      <br>
+      <label>Answers count: {{this.countAnswered}}</label>
+      <br>
+      <label *ngFor="let username of answeredDocument.joins">{{username}}</label>
+    </div>
   </div>
 </div>
