@@ -1,0 +1,4 @@
+<ngx-spinner></ngx-spinner>
+<div *ngIf="documents">
+  <label [routerLink]="['/documents', item.id]" *ngFor="let item of documents">{{item.name}}</label>
+</div>

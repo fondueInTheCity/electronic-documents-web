@@ -1,3 +1,4 @@
+<ngx-spinner></ngx-spinner>
 <router-outlet></router-outlet>
 <div *ngIf="currentFile" class="progress">
   <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" [attr.aria-valuenow]="progress"
@@ -20,7 +21,7 @@
       Heap
       <br>
       <ul>
-        <li *ngFor="let i of filesInfo?.heapDocuments">
+        <li class="" *ngFor="let i of filesInfo?.heapDocuments">
           <a [routerLink]="['/documents', i.id]">{{i.name}}</a>
         </li>
       </ul>

@@ -4,6 +4,7 @@ import {UserService} from '../../../profile/services/user.service';
 import {TokenStorageService} from '../../../../auth/services/token-storage.service';
 import {OrganizationInfo} from '../../models/organization-info';
 import {UtilService} from '../../../../utils/util.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-list-organizations',
@@ -16,7 +17,8 @@ export class ListOrganizationsComponent implements OnInit, OnDestroy {
 
   constructor(private userService: UserService,
               private tokenStorageService: TokenStorageService,
-              private properties: UtilService) {
+              private properties: UtilService,
+              private spinner: NgxSpinnerService) {
   }
 
   async ngOnInit() {
@@ -24,10 +26,12 @@ export class ListOrganizationsComponent implements OnInit, OnDestroy {
   }
 
   async getOrganizations() {
+    this.spinner.show();
     this.properties.unsubscribe(this.getSubscription);
     this.getSubscription = this.userService.getOrganizationsInfo(this.tokenStorageService.getUsername())
       .subscribe(async (organizationsInfo) => {
           this.organizationsInfo = organizationsInfo;
+          this.spinner.hide();
         });
   }
 

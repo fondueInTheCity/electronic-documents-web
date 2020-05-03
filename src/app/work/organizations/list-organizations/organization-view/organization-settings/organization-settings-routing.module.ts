@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: OrganizationSettingsComponent
+  },
+  {
+    path: 'roles',
+    loadChildren: () => import('./organization-roles/organization-roles.module').then(m => m.OrganizationRolesModule)
   }
 ];
 

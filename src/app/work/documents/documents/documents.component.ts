@@ -1,25 +1,42 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TokenStorageService} from '../../../auth/services/token-storage.service';
 import {Subscription} from 'rxjs';
-import {DocumentInfo} from '../../organizations/list-organizations/organization-view/organizations-documents/models/document-info';
 // tslint:disable-next-line:max-line-length
 import {DocumentsService} from '../../organizations/list-organizations/organization-view/organizations-documents/services/documents.service';
+import {UserDocumentsInfo} from '../models/user-documents-info';
+import {UtilService} from '../../../utils/util.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
   styleUrls: ['./documents.component.less']
 })
-export class DocumentsComponent implements OnInit {
+export class DocumentsComponent implements OnInit, OnDestroy {
   getSubscription: Subscription;
-  documentsInfo: DocumentInfo[];
+  documents: UserDocumentsInfo;
 
   constructor(private documentsService: DocumentsService,
-              private tokenStorageService: TokenStorageService) {
+              private tokenStorageService: TokenStorageService,
+              private properties: UtilService,
+              private spinner: NgxSpinnerService) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.getDocuments();
+  }
+
+  async getDocuments() {
+    this.spinner.show();
+    this.properties.unsubscribe(this.getSubscription);
     this.getSubscription = this.documentsService.getUserDocumentsInfo(this.tokenStorageService.getId())
-      .subscribe((data) => this.documentsInfo = data.documentsInfo);
+      .subscribe(async (data) => {
+          this.documents = data;
+          this.spinner.hide();
+        });
+  }
+
+  ngOnDestroy(): void {
+    this.properties.unsubscribe(this.getSubscription);
   }
 }

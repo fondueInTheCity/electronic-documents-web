@@ -1,7 +1,7 @@
 export class UserDashboard {
   username: string;
+  firstName: string;
   lastName: string;
   middleName: string;
-  publicInfo: string;
   email: string;
 }

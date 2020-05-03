@@ -6,6 +6,7 @@ import {OrganizationMember} from '../../../../models/organization-member';
 import {UtilService} from '../../../../../../utils/util.service';
 import {TokenStorageService} from '../../../../../../auth/services/token-storage.service';
 import {map, mergeMap, tap} from 'rxjs/operators';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-organization-members',
@@ -20,7 +21,8 @@ export class OrganizationMembersComponent implements OnInit, OnDestroy {
   constructor(private activatedRoute: ActivatedRoute,
               private organizationService: OrganizationService,
               private properties: UtilService,
-              private tokenStorageService: TokenStorageService) {
+              private tokenStorageService: TokenStorageService,
+              private spinner: NgxSpinnerService) {
   }
 
   async ngOnInit() {
@@ -28,6 +30,7 @@ export class OrganizationMembersComponent implements OnInit, OnDestroy {
   }
 
   async getMembers() {
+    this.spinner.show();
     this.properties.unsubscribe(this.getSubscription);
     this.getSubscription = this.activatedRoute.parent.parent.parent.params.pipe(
       map((params: Params) => params.organizationId),
@@ -35,6 +38,7 @@ export class OrganizationMembersComponent implements OnInit, OnDestroy {
       mergeMap((organizationId: number) => this.organizationService.getMembers(organizationId))
     ).subscribe((data: OrganizationMember[]) => {
       this.members = data;
+      this.spinner.hide();
     });
   }
 

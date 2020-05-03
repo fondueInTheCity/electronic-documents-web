@@ -1,1 +1,19 @@
-<p>organization-member-info works!</p>
+<ngx-spinner></ngx-spinner>
+<div *ngIf="organizationMember">
+  <label style="width: 90px;" *ngFor="let item of organizationMember?.roles" (click)="removeRole(item.id)">
+    {{item.name}}
+  </label>
+</div>
+<form [formGroup]="addRolesForm" (ngSubmit)="onSubmit()">
+  <label>Role</label>
+  <select class="form-control" formControlName="role">
+    <option [ngValue]="+role.id" *ngFor="let role of allRoles">
+      {{role.name}}
+    </option>
+  </select>
+  <div>
+    <button size="large" type="submit">
+      Add role
+    </button>
+  </div>
+</form>

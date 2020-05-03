@@ -13,12 +13,20 @@ const routes: Routes = [
         loadChildren: () => import('./organization-members/organization-members.module').then(m => m.OrganizationMembersModule)
       },
       {
-        path: 'documents',
+        path: 'my-documents',
         loadChildren: () => import('./organizations-documents/organizations-documents.module').then(m => m.OrganizationsDocumentsModule)
       },
       {
         path: 'settings',
         loadChildren: () => import('./organization-settings/organization-settings.module').then(m => m.OrganizationSettingsModule)
+      },
+      {
+        path: 'documents',
+        loadChildren: () => import('./documents/documents.module').then(m => m.DocumentsModule)
+      },
+      {
+        path: 'requests',
+        loadChildren: () => import('./organization-requests/organization-requests.module').then(m => m.OrganizationRequestsModule)
       }
     ]
   }

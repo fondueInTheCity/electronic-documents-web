@@ -5,6 +5,7 @@ import {OrganizationsDocumentsRoutingModule} from './organizations-documents-rou
 import {OrganizationsDocumentsComponent} from './organizations-documents/organizations-documents.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FileUploadModule} from 'ng2-file-upload';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {FileUploadModule} from 'ng2-file-upload';
     CommonModule,
     OrganizationsDocumentsRoutingModule,
     ReactiveFormsModule,
-    FileUploadModule
+    FileUploadModule,
+    NgxSpinnerModule
   ]
 })
 export class OrganizationsDocumentsModule { }

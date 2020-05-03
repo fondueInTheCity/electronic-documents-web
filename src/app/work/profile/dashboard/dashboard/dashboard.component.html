@@ -1,11 +1,12 @@
+<ngx-spinner></ngx-spinner>
 <div class="row">
   <div class="col-md-12">
-    <form [formGroup]="dashboardForm" (ngSubmit)="onSubmit()">
+    <form *ngIf="dashboardForm" [formGroup]="dashboardForm" (ngSubmit)="onSubmit()">
       <div class="form-group row">
-        <label class="col-4 col-form-label">User Name*</label>
+        <label for="username" class="col-4 col-form-label">User Name</label>
         <div class="col-8">
-          <input id="username" formControlName="username" placeholder="Username" class="form-control"
-                 type="text">
+          <input id="username" formControlName="username" placeholder="Username" class="form-control" type="text"
+                 readonly required>
         </div>
       </div>
       <div class="form-group row">
@@ -33,14 +34,8 @@
         </div>
       </div>
       <div class="form-group row">
-        <label for="publicinfo" class="col-4 col-form-label">Public Info</label>
-        <div class="col-8">
-          <textarea id="publicinfo" formControlName="publicInfo" cols="40" rows="4" class="form-control"></textarea>
-        </div>
-      </div>
-      <div class="form-group row">
         <div class="offset-4 col-8">
-          <button name="submit" type="submit" class="btn btn-primary">Update My Profile</button>
+          <button [hidden]="!needUpdate()" [disabled]="!canUpdate()" name="submit" type="submit" class="btn btn-primary">Update My Profile</button>
         </div>
       </div>
     </form>

@@ -16,6 +16,9 @@
         <a class="nav-link" [routerLink]="'/documents'">Documents</a>
       </li>
     </ul>
+    <div *ngIf="logged()" class="form-inline my-2 my-lg-0">
+      <a (click)="logout()">Logout</a>
+    </div>
   </div>
 </nav>
 <router-outlet></router-outlet>

@@ -1,12 +1,17 @@
-<div *ngFor="let i of members " class="card" style="width: 18rem;">
-  <img class="card-img-top" src="https://www.drinksdirect.co.uk/acatalog/jagermeister-miniature-4cl.jpg"
-       alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">
-      {{i.lastName}} {{i.firstName}} {{i.middleName}}
-    </h5>
-    <p>
-      <a *ngIf="admin()" [routerLink]="['./', i.memberId]">To Member modal</a>
-    </p>
+<ngx-spinner></ngx-spinner>
+<div class="d-flex justify-content-center">
+  <div class="list-group text-center">
+    <div *ngFor="let i of members " class="card" style="width: 18rem;">
+      <img class="card-img-top" src="https://www.drinksdirect.co.uk/acatalog/jagermeister-miniature-4cl.jpg"
+           alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{i.lastName}} {{i.firstName}} {{i.middleName}}
+        </h5>
+        <p>
+          <a *ngIf="admin()" [routerLink]="['./', i.memberId]">To Member modal</a>
+        </p>
+      </div>
+    </div>
   </div>
 </div>

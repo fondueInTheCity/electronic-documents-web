@@ -1,5 +1,49 @@
-<ul *ngIf="documentsInfo">
-  <li *ngFor="let i of documentsInfo">
-    <a [routerLink]="['./', i.id]">{{i.name}}</a>
-  </li>
-</ul>
+<div *ngIf="documents" class="container">
+  <div class="row">
+    <div class="col-sm">
+      Heap
+      <br>
+      <ul>
+        <li class="" *ngFor="let i of documents?.heapDocuments">
+          <a [routerLink]="['/documents', i.id]">{{i.name}}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm">
+      Waiting
+      <br>
+      <ul>
+        <li *ngFor="let i of documents?.waitingDocuments">
+          <a [routerLink]="['/documents', i.id]">{{i.name}}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm">
+      In Progress
+      <br>
+      <ul>
+        <li *ngFor="let i of documents?.progressDocuments">
+          <a [routerLink]="['/documents', i.id]">{{i.name}}</a>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="documents?.joinToMeDocuments?.length > 0" class="col-sm">
+      Join To Me
+      <br>
+      <ul>
+        <li *ngFor="let i of documents?.joinToMeDocuments">
+          <a [routerLink]="['/documents', i.id]">{{i.name}}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm">
+      Answered
+      <br>
+      <ul>
+        <li *ngFor="let i of documents?.answeredDocuments">
+          <a [routerLink]="['/documents', i.id]">{{i.name}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

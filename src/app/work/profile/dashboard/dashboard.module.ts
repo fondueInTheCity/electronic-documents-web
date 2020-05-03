@@ -5,6 +5,7 @@ import {DashboardRoutingModule} from './dashboard-routing.module';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {HttpClientModule} from '@angular/common/http';
     CommonModule,
     DashboardRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxSpinnerModule
   ]
 })
 export class DashboardModule { }

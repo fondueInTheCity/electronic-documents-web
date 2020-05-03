@@ -1,83 +1,76 @@
+<ngx-spinner></ngx-spinner>
 <div class="row" *ngIf="show">
-  <div class="col-md-8">
-    <form *ngIf="state === 'HEAP'" [formGroup]="heapForm" (ngSubmit)="onSubmitHeap()">
-      <div class="form-group row">
-        <label for="name" class="col-4 col-form-label">Document Name</label>
-        <div class="col-8">
+  <div class="col-md-12">
+    <form *ngIf="state === 'HEAP'" class="d-flex justify-content-center" [formGroup]="heapForm"
+          (ngSubmit)="onSubmitHeap()">
+      <div class="list-group text-center">
+        <div class="form-group row">
+          <label for="name" class="col-form-label">Document Name</label>
           <input id="name" formControlName="name" placeholder="Name" class="form-control"
                  type="text">
         </div>
-      </div>
-
-      <div class="form-group row">
-        <label class="col-4 col-form-label">Roles</label>
-        <div class="col-8">
-          <ng-multiselect-dropdown
-            [settings]="dropdownSettings"
-            [placeholder]="'Roles'"
-            [data]="allRoles"
-            formControlName="roles"
-            [(ngModel)]="selectedItems">
-          </ng-multiselect-dropdown>
-<!--          <select id="roles" formControlName="roles" multiple class="form-control">-->
-<!--            <option *ngFor="let role of allRoles" [value]="role.id">{{role.name}}</option>-->
-<!--          </select>-->
+        <div class="form-group row">
+          <label class="col-form-label">Roles</label>
+          <select id="roles" formControlName="roles" class="form-control">
+            <option *ngFor="let role of allRoles" [value]="role.id">{{role.name}}</option>
+          </select>
         </div>
-      </div>
-      <div class="form-group row">
-        <div class="offset-4 col-8">
+        <div class="form-group row">
           <button name="submit" type="submit" class="btn btn-primary">Approve Heap Document</button>
         </div>
       </div>
     </form>
-    <form *ngIf="state === 'WAITING'" [formGroup]="waitingForm">
-      <h1>In Waiting</h1>
-      <div class="form-group row">
-        <label>Name</label>
-        <input type="text" formControlName="name" placeholder="Name" required readonly>
+    <div *ngIf="state === 'WAITING'" class="d-flex justify-content-center">
+      <div class="list-group text-center">
+        <h1>In Waiting</h1>
+        <div class="form-group row">
+          <label>Name: {{waitingDocument.name}}</label>
+        </div>
+        <div class="form-group row">
+          <label>Organization Name: {{waitingDocument.organizationName}}</label>
+        </div>
+        <div class="form-group row">
+          <label>Count: {{waitingDocument.count}}</label>
+        </div>
       </div>
-      <div class="form-group row">
-        <label>Organization Name</label>
-        <input type="text" formControlName="organizationName" placeholder="Organization Name"
-               required readonly>
-      </div>
-      <div class="form-group row">
-        <label>Count</label>
-        <input type="text" formControlName="count" placeholder="Count" required readonly>
-      </div>
-    </form>
-    <div *ngIf="state === 'PENDING'">
-      <h1>In Progress</h1>
-      <br>
-      <label>Document Name: {{pendingDocumentView.name}}</label>
-      <br>
-      <label>Organization Name: {{pendingDocumentView.organizationName}}</label>
-      <br>
-      <label>Answers count: {{this.countAnswered}}</label>
-      <br>
-      <label *ngFor="let answer of pendingDocumentView.answers">{{answer.username}}:  {{answer.answer}}</label>
-      <br>
     </div>
-    <div *ngIf="state === 'JOIN_TO_ME'">
-      <h1>Join To Me</h1>
-      <button *ngIf="!downloaded" (click)="downloadFile()">Download File</button>
-
-      <button *ngIf="downloaded" (click)="openFile()">Open File</button>
-
-      <button *ngIf="downloaded" size="large" (click)="onSubmitJoinToMe(false)">Deny</button>
-      <button *ngIf="downloaded" size="large" (click)="onSubmitJoinToMe(true)">Approve</button>
-
+    <div *ngIf="state === 'PENDING'" class="d-flex justify-content-center">
+      <div class="list-group text-center">
+        <h1>In Progress</h1>
+        <br>
+        <label>Document Name: {{pendingDocumentView.name}}</label>
+        <br>
+        <label>Organization Name: {{pendingDocumentView.organizationName}}</label>
+        <br>
+        <label>Answers count: {{this.countAnswered}}</label>
+        <br>
+        <label *ngFor="let answer of pendingDocumentView.answers">{{answer.username}}:  {{answer.answer}}</label>
+        <br>
+      </div>
     </div>
-    <div *ngIf="state === 'ANSWERED'">
-      <h1>In Progress</h1>
-      <br>
-      <label>Document Name: {{answeredDocument.name}}</label>
-      <br>
-      <label>Organization Name: {{answeredDocument.organizationName}}</label>
-      <br>
-      <label>Answers count: {{this.countAnswered}}</label>
-      <br>
-      <label *ngFor="let username of answeredDocument.joins">{{username}}</label>
+    <div *ngIf="state === 'JOIN_TO_ME'" class="d-flex justify-content-center">
+      <div class="list-group text-center">
+        <h1>Join To Me</h1>
+        <button *ngIf="!downloaded" (click)="downloadFile()">Download File</button>
+
+        <button *ngIf="downloaded" (click)="openFile()">Open File</button>
+
+        <button *ngIf="downloaded" size="large" (click)="onSubmitJoinToMe(false)">Deny</button>
+        <button *ngIf="downloaded" size="large" (click)="onSubmitJoinToMe(true)">Approve</button>
+      </div>
+    </div>
+    <div *ngIf="state === 'ANSWERED'" class="d-flex justify-content-center">
+      <div class="list-group text-center">
+        <h1>Organization Document</h1>
+        <br>
+        <label>Document Name: {{answeredDocument.name}}</label>
+        <br>
+        <label>Organization Name: {{answeredDocument.organizationName}}</label>
+        <br>
+        <label>Answers count: {{this.countAnswered}}</label>
+        <br>
+        <label *ngFor="let username of answeredDocument.joins">{{username}}</label>
+      </div>
     </div>
   </div>
 </div>

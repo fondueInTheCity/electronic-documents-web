@@ -1,3 +1,4 @@
+<ngx-spinner></ngx-spinner>
 <div class="row">
   <div class="col-md-12">
     <form [formGroup]="generalForm" (ngSubmit)="onSubmit()">
@@ -9,16 +10,22 @@
         </div>
       </div>
       <div class="form-group row">
-        <label for="organizationType" class="col-4 col-form-label">Organization Type</label>
+        <label class="col-4 col-form-label">Organization Type</label>
         <div class="col-8">
-          <input id="organizationType" formControlName="organizationType" placeholder="Organization Type"
-                 class="form-control" type="text">
+          <select class="form-control" formControlName="organizationType" required>
+            <option *ngFor="let type of getTypes()" value="{{type}}">{{type}}</option>
+          </select>
         </div>
       </div>
       <div class="form-group row">
         <div class="offset-4 col-8">
           <button name="submit" type="submit" class="btn btn-primary">Update Organization</button>
         </div>
+      </div>
+      <div>
+        <button [routerLink]="['./roles']" size="large">
+          Change Organizations Roles
+        </button>
       </div>
     </form>
   </div>

@@ -1,21 +1,25 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-3 ">
-      <div class="list-group ">
-        <a [routerLink]="'members'" class="list-group-item list-group-item-action">Members</a>
-      </div>
-      <div class="list-group ">
-        <a [routerLink]="'documents'" class="list-group-item list-group-item-action">Documents</a>
-      </div>
-      <div class="list-group ">
-        <a [routerLink]="'settings'" class="list-group-item list-group-item-action">Settings</a>
-      </div>
+<div class="row ml-2 mr-2">
+  <div class="col-md-3">
+    <div class="list-group ">
+      <a [routerLink]="'members'" class="list-group-item list-group-item-action">Members</a>
     </div>
-    <div class="col-md-9">
-      <div class="card">
-        <div class="card-body">
-          <router-outlet></router-outlet>
-        </div>
+    <div class="list-group ">
+      <a [routerLink]="'my-documents'" class="list-group-item list-group-item-action">My Documents</a>
+    </div>
+    <div class="list-group">
+      <a [routerLink]="'settings'" class="list-group-item list-group-item-action">Settings</a>
+    </div>
+    <div class="list-group">
+      <a [routerLink]="'documents'" class="list-group-item list-group-item-action">Organization Documents</a>
+    </div>
+    <div class="list-group">
+      <a [routerLink]="'requests'" class="list-group-item list-group-item-action">Requests</a>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="card">
+      <div class="card-body">
+        <router-outlet></router-outlet>
       </div>
     </div>
   </div>
