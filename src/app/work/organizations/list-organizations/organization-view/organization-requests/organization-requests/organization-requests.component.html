@@ -1,70 +1,77 @@
 <ngx-spinner></ngx-spinner>
-<label>
-  Users' Requests:
-</label>
-<div *ngIf="userRequests?.length > 0">
-  <ol>
-    <li *ngFor="let item of userRequests" data-toggle="modal" data-target="#answeredRequest" (click)="setCurrent(item)">
-      {{item.ownerUsername}}
-    </li>
-  </ol>
-</div>
-<label *ngIf="!userRequests || userRequests?.length == 0">Nothing requests</label>
-<div>
-  <button type="button" class="btn btn-primary" data-toggle="modal"
-          data-target="#createRequest" size="large">
-    Create Organization Request
-  </button>
-</div>
-<label>
-  Organization's Requests:
-</label>
-<div *ngIf="organizationRequests?.length > 0">
-  <ol>
-    <li *ngFor="let item of organizationRequests" (click)="setCurrent(item)">{{item.ownerUsername}}</li>
-  </ol>
-</div>
-<label *ngIf="!organizationRequests || organizationRequests?.length == 0">Nothing requests</label>
-
-<div class="modal fade" id="createRequest" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Create request to user.</h5>
-      </div>
-      <form [formGroup]="createForm">
-        <div class="modal-body">
-          <input type="text" formControlName="username" placeholder="Username" required autofocus>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-          <button type="submit" (click)="onSubmit()" class="btn btn-primary" data-dismiss="modal">Yes</button>
-        </div>
-      </form>
+<div class="d-flex justify-content-center">
+  <div class="list-group text-center">
+    <label>
+      Users' Requests:
+    </label>
+    <div *ngIf="userRequests?.length > 0">
+      <ol>
+        <li *ngFor="let item of userRequests" data-toggle="modal" data-target="#answeredRequest"
+            (click)="setCurrent(item)">
+          {{item.ownerUsername}}
+        </li>
+      </ol>
     </div>
-  </div>
-</div>
+    <label *ngIf="!userRequests || userRequests?.length == 0">Nothing requests</label>
+    <div>
+      <button type="button" class="btn btn-primary" data-toggle="modal"
+              data-target="#createRequest" size="large">
+        Create Organization Request
+      </button>
+    </div>
+    <label>
+      Organization's Requests:
+    </label>
+    <div *ngIf="organizationRequests?.length > 0">
+      <ol>
+        <li *ngFor="let item of organizationRequests" (click)="setCurrent(item)">{{item.ownerUsername}}</li>
+      </ol>
+    </div>
+    <label *ngIf="!organizationRequests || organizationRequests?.length == 0">Nothing requests</label>
 
-<div *ngIf="current" class="modal fade" id="answeredRequest" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Do you want approve user's request?</h5>
+    <div class="modal fade" id="createRequest" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Create request to user.</h5>
+          </div>
+          <form [formGroup]="createForm">
+            <div class="modal-body">
+              <input type="text" formControlName="username" placeholder="Username" required autofocus>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+              <button type="submit" (click)="onSubmit()" class="btn btn-primary" data-dismiss="modal">Yes</button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="modal-body">
-        {{current.ownerUsername}}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="sendAnswer(false, current?.id)" data-dismiss="modal">
-          No
-        </button>
-        <button type="button" class="btn btn-primary" (click)="sendAnswer(true, current?.id)" data-dismiss="modal">
-          Yes
-        </button>
+    </div>
+
+    <div *ngIf="current" class="modal fade" id="answeredRequest" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Do you want approve user's request?</h5>
+          </div>
+          <div class="modal-body">
+            {{current.ownerUsername}}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" [disabled]="inProgress"
+                    (click)="sendAnswer(false, current?.id)" data-dismiss="modal">
+              No
+            </button>
+            <button type="button" class="btn btn-primary" [disabled]="inProgress"
+                    (click)="sendAnswer(true, current?.id)" data-dismiss="modal">
+              Yes
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

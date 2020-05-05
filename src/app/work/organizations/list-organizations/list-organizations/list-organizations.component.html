@@ -2,8 +2,8 @@
 <div class="d-flex justify-content-center">
   <div class="list-group text-center">
     <div *ngFor="let i of organizationsInfo " class="card" style="width: 18rem;">
-      <img class="card-img-top" src="https://www.drinksdirect.co.uk/acatalog/jagermeister-miniature-4cl.jpg"
-           alt="Card image cap">
+<!--      <img class="card-img-top" src="https://www.drinksdirect.co.uk/acatalog/jagermeister-miniature-4cl.jpg"-->
+<!--           alt="Card image cap">-->
 
       <div class="card-body">
         <h5 class="card-title">
@@ -12,9 +12,12 @@
         <p>
           <label>Owner Username: {{i?.ownerUsername}}</label>
           <br>
-          <a (click)="saveOrganizationId(i.id)" [routerLink]="['./', i.id, 'members']">To Organization view</a>
+          <a (click)="saveOrganizationId(i.id)" class="app-link" [routerLink]="['./', i.id, 'members']">To Organization view</a>
         </p>
       </div>
     </div>
+    <label *ngIf="!organizationsInfo || organizationsInfo.length === 0">
+      Nothing
+    </label>
   </div>
 </div>

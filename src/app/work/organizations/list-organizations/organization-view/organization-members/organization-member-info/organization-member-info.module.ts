@@ -5,6 +5,7 @@ import {OrganizationMemberInfoRoutingModule} from './organization-member-info-ro
 import {OrganizationMemberInfoComponent} from './organization-member-info/organization-member-info.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {ReactiveFormsModule} from '@angular/forms';
+import {ErrorMessagesModule} from '../../../../../../utils/error-messages/error-messages.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     CommonModule,
     OrganizationMemberInfoRoutingModule,
     ReactiveFormsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ErrorMessagesModule
   ]
 })
 export class OrganizationMemberInfoModule { }

@@ -7,10 +7,8 @@ import {TokenStorageService} from '../../../../../../auth/services/token-storage
 import {DocumentInfo} from '../models/document-info';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {MyOrganizationDocumentsInfo} from '../models/my-organization-documents-info';
-import {DocumentListInfo} from '../../../../../../utils/models/document-list-info';
 import {UtilService} from '../../../../../../utils/util.service';
 import {map, mergeMap, tap} from 'rxjs/operators';
-import {OrganizationMember} from '../../../../models/organization-member';
 import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({

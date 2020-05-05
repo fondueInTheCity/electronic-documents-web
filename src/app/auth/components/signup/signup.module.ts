@@ -4,6 +4,8 @@ import {CommonModule} from '@angular/common';
 import {SignupRoutingModule} from './signup-routing.module';
 import {SignupComponent} from './signup/signup.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {ErrorMessagesModule} from '../../../utils/error-messages/error-messages.module';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 
 @NgModule({
@@ -11,7 +13,9 @@ import {ReactiveFormsModule} from '@angular/forms';
   imports: [
     CommonModule,
     SignupRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ErrorMessagesModule,
+    NgxSpinnerModule
   ]
 })
 export class SignupModule { }

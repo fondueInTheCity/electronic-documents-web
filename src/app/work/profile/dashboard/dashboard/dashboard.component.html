@@ -7,35 +7,41 @@
         <div class="col-8">
           <input id="username" formControlName="username" placeholder="Username" class="form-control" type="text"
                  readonly required>
+          <app-error-messages [controlName]="'username'" [control]="dashboardForm.controls.username"></app-error-messages>
         </div>
       </div>
       <div class="form-group row">
         <label for="first_name" class="col-4 col-form-label">First Name</label>
         <div class="col-8">
           <input id="first_name" formControlName="firstName" placeholder="First Name" class="form-control here" type="text">
+          <app-error-messages [controlName]="'firstName'" [control]="dashboardForm.controls.firstName"></app-error-messages>
         </div>
       </div>
       <div class="form-group row">
         <label for="middle_name" class="col-4 col-form-label">Middle Name</label>
         <div class="col-8">
-          <input id="middle_name" formControlName="middleName" placeholder="First Name" class="form-control here" type="text">
+          <input id="middle_name" formControlName="middleName" placeholder="Middle Name" class="form-control here" type="text">
+          <app-error-messages [controlName]="'middleName'" [control]="dashboardForm.controls.middleName"></app-error-messages>
         </div>
       </div>
       <div class="form-group row">
         <label for="last_name" class="col-4 col-form-label">Last Name</label>
         <div class="col-8">
           <input id="last_name" formControlName="lastName" placeholder="Last Name" class="form-control here" type="text">
+          <app-error-messages [controlName]="'lastName'" [control]="dashboardForm.controls.lastName"></app-error-messages>
         </div>
       </div>
       <div class="form-group row">
         <label for="email" class="col-4 col-form-label">Email*</label>
         <div class="col-8">
           <input id="email" formControlName="email" placeholder="Email" class="form-control here" required="required" type="text">
+          <app-error-messages [controlName]="'email'" [control]="dashboardForm.controls.email"></app-error-messages>
         </div>
       </div>
       <div class="form-group row">
         <div class="offset-4 col-8">
-          <button [hidden]="!needUpdate()" [disabled]="!canUpdate()" name="submit" type="submit" class="btn btn-primary">Update My Profile</button>
+          <button [hidden]="!needUpdate()" [disabled]="disableUpdateButton()" type="submit"
+                  class="btn btn-block btn-lg app-button">Update My Profile</button>
         </div>
       </div>
     </form>

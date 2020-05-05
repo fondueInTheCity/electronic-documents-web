@@ -5,6 +5,7 @@ import {OrganizationRequestsRoutingModule} from './organization-requests-routing
 import {OrganizationRequestsComponent} from './organization-requests/organization-requests.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {ReactiveFormsModule} from '@angular/forms';
+import {ErrorMessagesModule} from '../../../../../utils/error-messages/error-messages.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     CommonModule,
     OrganizationRequestsRoutingModule,
     NgxSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ErrorMessagesModule
   ]
 })
 export class OrganizationRequestsModule { }

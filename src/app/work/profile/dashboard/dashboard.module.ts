@@ -6,6 +6,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import {ErrorMessagesModule} from '../../../utils/error-messages/error-messages.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     DashboardRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ErrorMessagesModule
   ]
 })
 export class DashboardModule { }

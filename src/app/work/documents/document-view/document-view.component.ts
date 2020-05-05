@@ -12,10 +12,12 @@ import {WaitingDocumentView} from '../../../utils/models/waiting-document-view';
 import {PendingDocumentView} from '../../../utils/models/pending-document-view';
 import {JoinToMeDocumentView} from '../../../utils/models/join-to-me-document-view';
 import {AnsweredDocumentView} from '../../../utils/models/answered-document-view';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {mergeMap, tap} from 'rxjs/operators';
 import {ListItem} from 'ng-multiselect-dropdown/multiselect.model';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {ToastrService} from 'ngx-toastr';
+import {tc} from '../../../utils/tc';
 
 @Component({
   selector: 'app-document-view',
@@ -33,15 +35,10 @@ export class DocumentViewComponent implements OnInit, OnDestroy {
   answeredDocument: AnsweredDocumentView;
   allRoles: OrganizationRoleInfo[];
   selectedItems = [];
-  heapForm = this.fb.group({
-    id: [],
-    organizationId: [],
-    name: [],
-    roles: [this.selectedItems]
-  });
+  heapForm: FormGroup;
   joinToMeForm = this.fb.group({
     id: [],
-    answer: []
+    answer: [null, Validators.required]
   });
   downloaded = false;
   fileExists = false;
@@ -50,6 +47,7 @@ export class DocumentViewComponent implements OnInit, OnDestroy {
   countAnswered: number;
   show: boolean;
   fileURL: string;
+  inProgress = false;
 
 
   constructor(private properties: UtilService,
@@ -58,7 +56,8 @@ export class DocumentViewComponent implements OnInit, OnDestroy {
               private documentService: DocumentsService,
               private activatedRoute: ActivatedRoute,
               private spinner: NgxSpinnerService,
-              private router: Router) {
+              private router: Router,
+              private toast: ToastrService) {
   }
 
   async ngOnInit() {
@@ -76,7 +75,12 @@ export class DocumentViewComponent implements OnInit, OnDestroy {
       this.state = state;
       if (this.state === 'HEAP') {
         this.getSubscription = this.documentService.getHeapDocument(this.documentId).subscribe((data) => {
-          this.heapForm.patchValue(data);
+          this.heapForm = this.fb.group({
+            id: [data.id],
+            organizationId: [data.organizationId],
+            name: [data.name, this.properties.getOrganizationDocumentNameValidators()],
+            roles: [null, this.properties.getOrganizationRoleValidators()]
+          });
           this.allRoles = data.allRoles;
           this.heapDocument = data;
           this.show = true;
@@ -114,33 +118,50 @@ export class DocumentViewComponent implements OnInit, OnDestroy {
   }
 
   async onSubmitHeap() {
+    this.inProgress = true;
     this.spinner.show();
     this.properties.unsubscribe(this.getSubscription);
     const value = this.heapForm.value;
     this.getSubscription = this.documentService.approveUserHeapDocument({id: value.id, organizationId: value.organizationId,
     name: value.name, roles: [+value.roles], allRoles: []}).subscribe(_ => {
       this.state = 'WAITING';
+      this.inProgress = false;
       this.spinner.hide();
+      this.toast.success(tc.approveHeapSuccess.message);
       this.getData();
+    }, error => {
+      this.inProgress = false;
+      this.spinner.hide();
+      this.toast.error(tc.approveHeapError.message);
     });
   }
 
   async downloadFile() {
+    this.inProgress = true;
     this.spinner.show();
     this.downloadInProgress = true;
     this.documentService.downloadDocumentForCheck(this.documentId).subscribe((blob) => {
       this.createFile(blob);
       this.downloaded = true;
       this.downloadInProgress = false;
+      this.inProgress = false;
+      this.spinner.hide();
+    }, error => {
+      this.inProgress = false;
       this.spinner.hide();
     });
   }
 
   onSubmitJoinToMe(answer: boolean) {
+    this.inProgress = true;
     this.spinner.show();
     this.documentService.sendAnswer(this.documentId, {answer}).subscribe(_ => {
+      this.inProgress = false;
       this.spinner.hide();
       this.router.navigate(['./../']);
+    }, error => {
+      this.inProgress = false;
+      this.spinner.hide();
     });
   }
 
@@ -159,5 +180,9 @@ export class DocumentViewComponent implements OnInit, OnDestroy {
 
   onItemSelect($event: ListItem) {
     console.log($event);
+  }
+
+  disableHeapApproveButton() {
+    return this.inProgress || this.heapForm.invalid;
   }
 }

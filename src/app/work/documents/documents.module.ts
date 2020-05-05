@@ -6,6 +6,7 @@ import {DocumentsComponent} from './documents/documents.component';
 import {DocumentViewComponent} from './document-view/document-view.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import {ErrorMessagesModule} from '../../utils/error-messages/error-messages.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     DocumentsRoutingModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    FormsModule
+    FormsModule,
+    ErrorMessagesModule
   ]
 })
 export class DocumentsModule { }

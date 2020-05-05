@@ -1,15 +1,49 @@
 @background-color: #1F2933;
-@text-color: #C5C6C7;
+@text-color: #FBFBFB;
+@button-color: #BCABAE;
+@link-color: #EAFDF8;
+@active-link-color: #716969;
+@focus-link-color: #716969;
 @web-color: #66FCF1;
 
-body {
-  background-color: @background-color;
-  color: @text-color;
 
-  .web-color {
-    border-color: @web-color;
-    color: @web-color;
+body {
+  background-color: @background-color!important;
+  color: @text-color!important;
+
+  .card {
+    background-color: @background-color!important;
+    color: @text-color!important;
+  }
+
+  .modal-content {
+    background-color: @background-color!important;
+    color: @text-color!important;
+  }
+
+  .app-button {
+    color: @button-color;
     background-color: @background-color;
+    border-color: @button-color;
     cursor: pointer;
+    &:disabled {
+      cursor: auto;
+    }
+    &:hover {
+      color: @active-link-color;
+      border-color: @active-link-color;
+    }
+    &:active {
+      color: @background-color;
+      background-color: @active-link-color;
+    }
+  }
+
+  .app-link {
+    color:@link-color!important;
+    cursor: pointer;
+    &:hover {
+      color: @active-link-color!important;
+    }
   }
 }

@@ -7,6 +7,8 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {map, mergeMap, tap} from 'rxjs/operators';
 import {ActivatedRoute, Params} from '@angular/router';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {tc} from '../../../../../../../utils/tc';
 
 @Component({
   selector: 'app-organization-roles',
@@ -23,12 +25,14 @@ export class OrganizationRolesComponent implements OnInit, OnDestroy {
   current: OrganizationRoleInfo;
   renameRoleForm: FormGroup;
   createNewRoleForm: FormGroup;
+  inProgress = false;
 
   constructor(private organizationService: OrganizationService,
               private properties: UtilService,
               private spinner: NgxSpinnerService,
               private activatedRoute: ActivatedRoute,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private toast: ToastrService) {
   }
 
   async ngOnInit() {
@@ -50,25 +54,43 @@ export class OrganizationRolesComponent implements OnInit, OnDestroy {
           name: []
         });
         this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
       });
   }
 
   async deleteOrganizationRole(roleId: number) {
+    this.inProgress = true;
     this.spinner.show();
     this.properties.unsubscribe(this.deleteSubscription);
     this.deleteSubscription = this.organizationService.deleteOrganizationRole(roleId).subscribe(async () => {
-      this.loadOrganizationRoles();
+      this.current = null;
+      this.inProgress = false;
+      this.toast.success(tc.deleteRoleSuccess.message);
       this.spinner.hide();
+      this.loadOrganizationRoles();
+    }, error => {
+      this.current = null;
+      this.inProgress = false;
+      this.spinner.hide();
+      this.toast.error(tc.deleteRoleError.message);
     });
   }
 
   async renameOrganizationRole() {
+    this.inProgress = true;
     this.spinner.show();
     this.properties.unsubscribe(this.renameSubscription);
     this.renameSubscription = this.organizationService.renameOrganizationRole(this.renameRoleForm.value)
       .subscribe(async () => {
-        this.loadOrganizationRoles();
+        this.inProgress = false;
         this.spinner.hide();
+        this.toast.success(tc.renameRoleSuccess.message);
+        this.loadOrganizationRoles();
+      }, error => {
+        this.inProgress = false;
+        this.spinner.hide();
+        this.toast.error(tc.renameRoleError.message);
       });
   }
 
@@ -87,18 +109,33 @@ export class OrganizationRolesComponent implements OnInit, OnDestroy {
     this.current = item;
     this.renameRoleForm = this.fb.group({
       id: [item.id],
-      newName: [item.name]
+      newName: [item.name, this.properties.getOrganizationRoleNameValidators()]
     });
   }
 
   createNewRole() {
+    this.inProgress = true;
     this.spinner.show();
     this.properties.unsubscribe(this.createSubscription);
     this.createSubscription = this.organizationService.createOrganizationRole(
       this.createNewRoleForm.value)
       .subscribe(() => {
+        this.inProgress = false;
         this.spinner.hide();
+        this.toast.success(tc.createRoleSuccess.message);
         this.loadOrganizationRoles();
+      }, error => {
+        this.inProgress = false;
+        this.spinner.hide();
+        this.toast.error(tc.createRoleError.message);
       });
+  }
+
+  disableRenameButton() {
+    return this.inProgress && this.renameRoleForm.invalid;
+  }
+
+  disableCreateButton() {
+    return this.inProgress && this.createNewRoleForm.invalid;
   }
 }

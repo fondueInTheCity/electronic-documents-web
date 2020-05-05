@@ -12,14 +12,15 @@ import {UserRequestsView} from '../../../utils/models/user-requests-view';
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getDashboard(username: string): Observable<UserDashboard> {
     return this.http.get<UserDashboard>(`${environment.serverUrl}/users/${username}/dashboard`);
   }
 
-  updateDashboard(username: string, userDashboard: UserDashboard): Observable<void> {
-    return this.http.put<void>(`${environment.serverUrl}/users/${username}/dashboard`, userDashboard);
+  updateDashboard(username: string, userDashboard: UserDashboard): Observable<string> {
+    return this.http.put<string>(`${environment.serverUrl}/users/${username}/dashboard`, userDashboard);
   }
 
   getOrganizationsInfo(username: string): Observable<OrganizationInfo[]> {

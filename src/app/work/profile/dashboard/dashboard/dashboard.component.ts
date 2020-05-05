@@ -1,11 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {UserDashboard} from '../models/UserDashboard';
 import {UserService} from '../../services/user.service';
 import {TokenStorageService} from '../../../../auth/services/token-storage.service';
 import {UtilService} from '../../../../utils/util.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {ToastrService} from 'ngx-toastr';
+import {tc} from '../../../../utils/tc';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,13 +18,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   dashboardForm: FormGroup;
   username: string;
   getSubscription: Subscription;
+  updateSubscription: Subscription;
+  inProgress = false;
 
 
   constructor(private service: UserService,
               private tokenStorageService: TokenStorageService,
               private utilService: UtilService,
               private fb: FormBuilder,
-              private spinner: NgxSpinnerService) {
+              private spinner: NgxSpinnerService,
+              private toast: ToastrService) {
   }
 
   async ngOnInit() {
@@ -30,6 +35,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async getData() {
+    this.inProgress = false;
     await this.spinner.show();
     this.username = this.tokenStorageService.getUsername();
     this.utilService.unsubscribe(this.getSubscription);
@@ -48,13 +54,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    this.service.updateDashboard(this.username, this.dashboardForm.value).subscribe(_ => {
-      this.getData();
-    });
+    this.spinner.show();
+    this.inProgress = true;
+    this.utilService.unsubscribe(this.updateSubscription);
+    this.updateSubscription = this.service.updateDashboard(this.username, this.dashboardForm.value).subscribe((data) => {
+        this.spinner.hide();
+        this.toast.success(tc.updateDashboardSuccess.message);
+        this.getData();
+      },
+      error => {
+        this.inProgress = false;
+        this.spinner.hide();
+        this.toast.error(tc.updateDashboardError.message);
+      });
   }
 
-  canUpdate(): boolean {
-    return this.dashboardForm.valid;
+  disableUpdateButton() {
+    return this.inProgress || this.dashboardForm.invalid;
   }
 
   needUpdate(): boolean {
@@ -63,5 +79,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.utilService.unsubscribe(this.getSubscription);
+    this.utilService.unsubscribe(this.updateSubscription);
   }
 }

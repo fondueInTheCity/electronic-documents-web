@@ -1,36 +1,44 @@
-<div *ngFor="let item of organizationsInfo" class="card" style="width: 18rem;">
-  <img class="card-img-top" src="https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg"
-       alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">{{item?.name}}</h5>
-    <p class="card-text">
-      <label>Owner Username: {{item?.ownerUsername}}</label>
-      <label>Organization Type: {{item?.type}}</label>
-    </p>
-    <a *ngIf="!item.subscribe" (click)="setCurrent(item)" data-toggle="modal" data-target="#exampleModal"
-       class="btn btn-primary">Create Request To Organization</a>
-    <p *ngIf="item.subscribe">You in this organization now</p>
-  </div>
-</div>
-<label *ngIf="!organizationsInfo || organizationsInfo.length === 0">
-  Nothing
-</label>
-
-<div *ngIf="current" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Send Request to Organization.</h5>
-      </div>
-      <div class="modal-body">
-        <p>
-          Do you want to approve command?
+<ngx-spinner></ngx-spinner>
+<div class="d-flex justify-content-center">
+  <div class="list-group text-center">
+    <div *ngFor="let item of organizationsInfo" class="card" style="width: 18rem;">
+      <img class="card-img-top" src="https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg"
+           alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{item?.name}}</h5>
+        <p class="card-text">
+          <label>Owner Username: {{item?.ownerUsername}}</label>
+          <label>Organization Type: {{item?.type}}</label>
         </p>
+        <a *ngIf="item.subscribe === 'NO_REQUEST'" (click)="setCurrent(item)" data-toggle="modal" data-target="#exampleModal"
+           class="btn btn-lg btn-block app-button">Create Request To Organization</a>
+        <p *ngIf="item.subscribe === 'IN_ORGANIZATION'">You in this organization now.</p>
+        <p *ngIf="item.subscribe === 'WAITING'">Your request in waiting.</p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-primary" (click)="createRequest(current?.id)">Yes</button>
+    </div>
+    <label *ngIf="!organizationsInfo || organizationsInfo.length === 0">
+      Nothing
+    </label>
+
+    <div *ngIf="current" class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Send Request to Organization.</h5>
+          </div>
+          <div class="modal-body">
+            <p>
+              Do you want to approve command?
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" #closeBtn data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-primary" [disabled]="disableCreateRequestButton()"
+                    (click)="createRequest(current?.id)">Yes</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

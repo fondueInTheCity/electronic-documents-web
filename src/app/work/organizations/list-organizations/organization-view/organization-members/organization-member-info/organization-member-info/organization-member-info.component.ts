@@ -5,9 +5,11 @@ import {OrganizationRoleInfo} from '../../../../../../../utils/models/organizati
 import {Subscription} from 'rxjs';
 import {OrganizationService} from '../../../../../services/organization.service';
 import {UtilService} from '../../../../../../../utils/util.service';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {map, mergeMap, tap} from 'rxjs/operators';
+import {ToastrService} from 'ngx-toastr';
+import {tc} from '../../../../../../../utils/tc';
 
 @Component({
   selector: 'app-organization-member-info',
@@ -20,16 +22,16 @@ export class OrganizationMemberInfoComponent implements OnInit, OnDestroy {
   organizationMember: OrganizationMember;
   allRoles: OrganizationRoleInfo[];
   getSubscription: Subscription;
-  addRolesForm = this.fb.group({
-    role: []
-  });
+  addRolesForm: FormGroup;
+  inProgress = false;
 
 
   constructor(private organizationService: OrganizationService,
               private properties: UtilService,
               private fb: FormBuilder,
               private spinner: NgxSpinnerService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private toast: ToastrService) {
   }
 
   async ngOnInit() {
@@ -38,6 +40,9 @@ export class OrganizationMemberInfoComponent implements OnInit, OnDestroy {
 
   async getData() {
     await this.spinner.show();
+    this.addRolesForm = this.fb.group({
+      role: [null, this.properties.getOrganizationRoleValidators()]
+    });
     this.properties.unsubscribe(this.getSubscription);
     this.getSubscription = this.activatedRoute.parent.parent.parent.parent.params
       .pipe(
@@ -52,6 +57,8 @@ export class OrganizationMemberInfoComponent implements OnInit, OnDestroy {
       ).subscribe(async (roles) => {
         this.allRoles = roles;
         this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
       });
   }
 
@@ -60,14 +67,42 @@ export class OrganizationMemberInfoComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.organizationService.addRole(this.organizationId, this.memberId, this.addRolesForm.value).subscribe(() =>
-      this.getData()
+    this.inProgress = true;
+    this.spinner.show();
+    this.organizationService.addRole(this.organizationId, this.memberId, this.addRolesForm.value).subscribe(() => {
+        this.spinner.hide();
+        this.inProgress = false;
+        this.toast.success(tc.addRoleSuccess.message);
+        this.getData();
+      }, error => {
+        this.spinner.hide();
+        this.inProgress = false;
+        this.toast.error(tc.addRoleError.message);
+      }
     );
   }
 
+  disableAddRole() {
+    return this.inProgress && this.addRolesForm.invalid;
+  }
+
   removeRole(roleId: number) {
-    this.organizationService.deleteRole(this.organizationId, this.memberId, roleId).subscribe(() =>
-      this.getData()
+    this.inProgress = true;
+    this.spinner.show();
+    this.organizationService.deleteRole(this.organizationId, this.memberId, roleId).subscribe(() => {
+        this.spinner.hide();
+        this.inProgress = false;
+        this.toast.success(tc.denyRoleSuccess.message);
+        this.getData();
+      }, error => {
+        this.spinner.hide();
+        this.inProgress = false;
+        this.toast.error(tc.denyRoleError.message);
+      }
     );
+  }
+
+  getAnotherRoles() {
+    return this.allRoles.filter(role => !this.organizationMember.roles.map(role1 => role1.id).includes(role.id));
   }
 }

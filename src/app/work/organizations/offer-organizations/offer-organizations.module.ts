@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { OfferOrganizationsRoutingModule } from './offer-organizations-routing.module';
 import { OfferOrganizationsComponent } from './offer-organizations/offer-organizations.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import {ReactiveFormsModule} from '@angular/forms';
   imports: [
     CommonModule,
     OfferOrganizationsRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule
   ]
 })
 export class OfferOrganizationsModule { }

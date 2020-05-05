@@ -2,6 +2,6 @@ export class OrganizationInfo {
   id: number;
   name: string;
   ownerUsername: string;
-  subscribe: boolean;
+  subscribe: string;
   type: string;
 }

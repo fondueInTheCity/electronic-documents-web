@@ -5,6 +5,7 @@ import { OrganizationSettingsRoutingModule } from './organization-settings-routi
 import { OrganizationSettingsComponent } from './organization-settings/organization-settings.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import {ErrorMessagesModule} from '../../../../../utils/error-messages/error-messages.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     CommonModule,
     OrganizationSettingsRoutingModule,
     ReactiveFormsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ErrorMessagesModule
   ]
 })
 export class OrganizationSettingsModule { }

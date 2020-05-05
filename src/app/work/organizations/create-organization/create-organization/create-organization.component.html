@@ -1,3 +1,4 @@
+<ngx-spinner></ngx-spinner>
 <div class="d-flex flex-column bd-highlight mb-3 align-items-center">
   <h1 class="h3 mb-3 font-weight-normal">Create Organization</h1>
   <form [formGroup]="organizationForm" (ngSubmit)="onSubmit()">
@@ -6,6 +7,7 @@
         Organization Name
         <input type="text" class="form-control" formControlName="name" required autofocus/>
       </label>
+      <app-error-messages [controlName]="'organizationName'" [control]="this.organizationForm.controls.name"></app-error-messages>
     </div>
     <div class="form-group">
       <label>
@@ -16,9 +18,10 @@
           </option>
         </select>
       </label>
+      <app-error-messages [controlName]="'organizationType'" [control]="this.organizationForm.controls.type"></app-error-messages>
     </div>
     <div class="form-group">
-      <button class="btn btn-lg btn-primary btn-block">Create</button>
+      <button [disabled]="disableCreateButton()" class="btn btn-lg app-button btn-block">Create</button>
     </div>
   </form>
 </div>

@@ -1,0 +1,11 @@
+<div *ngIf="showErrors() && messages">
+  <div *ngIf="control.hasError('required')"
+       class="error">{{messages['required']}}
+  </div>
+  <div *ngIf="control.hasError('pattern')"
+       class="error">{{messages['pattern']}}
+  </div>
+  <div *ngIf="control.hasError('email')"
+       class="error">{{messages['email']}}
+  </div>
+</div>

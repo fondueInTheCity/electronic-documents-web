@@ -1,19 +1,24 @@
 <ngx-spinner></ngx-spinner>
-<div *ngIf="organizationMember">
-  <label style="width: 90px;" *ngFor="let item of organizationMember?.roles" (click)="removeRole(item.id)">
-    {{item.name}}
-  </label>
-</div>
-<form [formGroup]="addRolesForm" (ngSubmit)="onSubmit()">
-  <label>Role</label>
-  <select class="form-control" formControlName="role">
-    <option [ngValue]="+role.id" *ngFor="let role of allRoles">
-      {{role.name}}
-    </option>
-  </select>
-  <div>
-    <button size="large" type="submit">
-      Add role
-    </button>
+<div *ngIf="organizationMember" class="d-flex justify-content-center">
+  <div class="list-group text-center">
+    <div *ngIf="organizationMember">
+      <button style="width: 90px;" [disabled]="inProgress" *ngFor="let item of organizationMember?.roles" (click)="removeRole(item.id)">
+        {{item.name}}
+      </button>
+    </div>
+    <form *ngIf="organizationMember && allRoles" [formGroup]="addRolesForm" (ngSubmit)="onSubmit()">
+      <label>Role</label>
+      <select class="form-control" formControlName="role">
+        <option [ngValue]="+role.id" *ngFor="let role of allRoles">
+          {{role.name}}
+        </option>
+      </select>
+      <app-error-messages [controlName]="'organizationRole'" [control]="addRolesForm.controls.role"></app-error-messages>
+      <div>
+        <button class="btn btn-primary" [disabled]="disableAddRole()" type="submit">
+          Add role
+        </button>
+      </div>
+    </form>
   </div>
-</form>
+</div>

@@ -1,12 +1,22 @@
 import {Injectable} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {Validators} from '@angular/forms';
+import {
+  firstNamePattern,
+  lastNamePattern,
+  middleNamePattern, organizationDocumentNamePattern,
+  organizationNamePattern,
+  organizationRoleNamePatter,
+  passwordPattern,
+  usernamePattern
+} from './pattern';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilService {
   private USERNAME_MIN_LENGTH = 4;
+  private PASSWORD_MIN_LENGTH = 6;
   private FIRST_NAME_MIN_LENGTH = 2;
   private LAST_NAME_MIN_LENGTH = 2;
   private MIDDLE_NAME_MIN_LENGTH = 2;
@@ -34,22 +44,46 @@ export class UtilService {
   }
 
   getUsernameValidators() {
-    return [Validators.required, Validators.minLength(this.USERNAME_MIN_LENGTH), Validators.pattern(/^[a-zA-Z0-9]*$/)];
+    return [Validators.required, Validators.minLength(this.USERNAME_MIN_LENGTH), Validators.pattern(usernamePattern)];
+  }
+
+  getPasswordValidators() {
+    return [Validators.required, Validators.minLength(this.PASSWORD_MIN_LENGTH), Validators.pattern(passwordPattern)];
   }
 
   getFirstNameValidators() {
-    return [Validators.required, Validators.minLength(this.FIRST_NAME_MIN_LENGTH), Validators.pattern(/^[a-zA-Z]*$/)];
+    return [Validators.required, Validators.minLength(this.FIRST_NAME_MIN_LENGTH), Validators.pattern(firstNamePattern)];
   }
 
   getLastNameValidators() {
-    return [Validators.required, Validators.minLength(this.LAST_NAME_MIN_LENGTH), Validators.pattern(/^[a-zA-Z]*$/)];
+    return [Validators.required, Validators.minLength(this.LAST_NAME_MIN_LENGTH), Validators.pattern(lastNamePattern)];
   }
 
   getMiddleNameValidators() {
-    return [Validators.required, Validators.minLength(this.MIDDLE_NAME_MIN_LENGTH), Validators.pattern(/^[a-zA-Z]*$/)];
+    return [Validators.required, Validators.minLength(this.MIDDLE_NAME_MIN_LENGTH), Validators.pattern(middleNamePattern)];
   }
 
   getEmailValidators() {
     return [Validators.required, Validators.email];
+  }
+
+  getOrganizationNameValidators() {
+    return [Validators.required, Validators.pattern(organizationNamePattern)];
+  }
+
+  getOrganizationTypeValidators() {
+    return [Validators.required];
+  }
+
+  getOrganizationRoleValidators() {
+    return [Validators.required];
+  }
+
+  getOrganizationRoleNameValidators() {
+    return [Validators.required, Validators.pattern(organizationRoleNamePatter)];
+  }
+
+  getOrganizationDocumentNameValidators() {
+    return [Validators.required, Validators.pattern(organizationDocumentNamePattern)];
   }
 }

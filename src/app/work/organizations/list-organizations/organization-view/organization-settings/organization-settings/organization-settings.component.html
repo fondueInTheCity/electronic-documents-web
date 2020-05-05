@@ -1,12 +1,13 @@
 <ngx-spinner></ngx-spinner>
 <div class="row">
   <div class="col-md-12">
-    <form [formGroup]="generalForm" (ngSubmit)="onSubmit()">
+    <form *ngIf="generalForm" [formGroup]="generalForm" (ngSubmit)="onSubmit()">
       <div class="form-group row">
         <label for="name" class="col-4 col-form-label">Organization Name</label>
         <div class="col-8">
           <input id="name" formControlName="name" placeholder="Name" class="form-control"
                  type="text">
+          <app-error-messages [control]="generalForm.controls.name" [controlName]="'organizationName'"></app-error-messages>
         </div>
       </div>
       <div class="form-group row">
@@ -15,11 +16,12 @@
           <select class="form-control" formControlName="organizationType" required>
             <option *ngFor="let type of getTypes()" value="{{type}}">{{type}}</option>
           </select>
+          <app-error-messages [control]="generalForm.controls.organizationType" [controlName]="'organizationType'"></app-error-messages>
         </div>
       </div>
       <div class="form-group row">
         <div class="offset-4 col-8">
-          <button name="submit" type="submit" class="btn btn-primary">Update Organization</button>
+          <button name="submit" type="submit" [disabled]="disableUpdate()" class="btn btn-primary">Update Organization</button>
         </div>
       </div>
       <div>

@@ -7,6 +7,8 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {map, mergeMap, tap} from 'rxjs/operators';
 import {ActivatedRoute, Params} from '@angular/router';
 import {FormBuilder} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {tc} from '../../../../../../utils/tc';
 
 @Component({
   selector: 'app-organization-requests',
@@ -24,12 +26,14 @@ export class OrganizationRequestsComponent implements OnInit, OnDestroy {
   createForm = this.fb.group({
     username: []
   });
+  inProgress = false;
 
   constructor(private organizationService: OrganizationService,
               private properties: UtilService,
               private spinner: NgxSpinnerService,
               private activatedRoute: ActivatedRoute,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private toast: ToastrService) {
   }
 
   async ngOnInit() {
@@ -41,8 +45,14 @@ export class OrganizationRequestsComponent implements OnInit, OnDestroy {
     this.properties.unsubscribe(this.answerSubscription);
     this.answerSubscription = this.organizationService.answerOffer({offerId, answer})
       .subscribe(async () => {
+        this.toast.success(tc.answerSuccess.message);
         this.spinner.hide();
+        this.inProgress = false;
         this.getRequests();
+      }, error => {
+        this.inProgress = false;
+        this.toast.error(tc.answerError.message);
+        this.spinner.hide();
       });
   }
 
@@ -58,6 +68,8 @@ export class OrganizationRequestsComponent implements OnInit, OnDestroy {
         this.userRequests = data.userRequests;
         this.organizationRequests = data.organizationRequests;
         this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
       });
   }
 
@@ -66,12 +78,19 @@ export class OrganizationRequestsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.inProgress = true;
     this.properties.unsubscribe(this.createSubscription);
     this.spinner.show();
-    this.createSubscription = this.organizationService.createOrganizationRequest({username: this.createForm.value.username,
-      organizationId: this.organizationId}).subscribe(_ => {
+    this.createSubscription = this.organizationService.createOrganizationRequest({
+      username: this.createForm.value.username,
+      organizationId: this.organizationId
+    }).subscribe(_ => {
+        this.inProgress = false;
         this.spinner.hide();
         this.getRequests();
+      }, error => {
+        this.inProgress = false;
+        this.spinner.hide();
       }
     );
   }

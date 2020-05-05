@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { JoinOrganizationsRoutingModule } from './join-organizations-routing.module';
 import { JoinOrganizationsComponent } from './join-organizatinos/join-organizations.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import {ReactiveFormsModule} from '@angular/forms';
   imports: [
     CommonModule,
     JoinOrganizationsRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule
   ]
 })
 export class JoinOrganizationsModule { }
