@@ -11,7 +11,7 @@
           <label>Organization Type: {{item?.type}}</label>
         </p>
         <a *ngIf="item.subscribe === 'NO_REQUEST'" (click)="setCurrent(item)" data-toggle="modal" data-target="#exampleModal"
-           class="btn btn-lg btn-block app-button">Create Request To Organization</a>
+           class="btn btn-lg btn-block btn-primary">Create Request To Organization</a>
         <p *ngIf="item.subscribe === 'IN_ORGANIZATION'">You in this organization now.</p>
         <p *ngIf="item.subscribe === 'WAITING'">Your request in waiting.</p>
       </div>

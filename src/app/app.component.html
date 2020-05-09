@@ -7,13 +7,13 @@
   <div *ngIf="logged()" class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/profile']">Profile</a>
+        <a class="nav-link app-link" [routerLink]="['/profile']">Profile</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="'/organizations'">Organizations</a>
+        <a class="nav-link app-link" [routerLink]="'/organizations'">Organizations</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="'/documents'">Documents</a>
+        <a class="nav-link app-link" [routerLink]="'/documents'">Documents</a>
       </li>
     </ul>
     <div *ngIf="logged()" class="form-inline my-2 my-lg-0 app-link">

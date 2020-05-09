@@ -4,4 +4,5 @@ export class OrganizationInfo {
   ownerUsername: string;
   subscribe: string;
   type: string;
+  avatar: number[];
 }

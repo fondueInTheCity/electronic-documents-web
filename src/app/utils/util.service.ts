@@ -44,23 +44,23 @@ export class UtilService {
   }
 
   getUsernameValidators() {
-    return [Validators.required, Validators.minLength(this.USERNAME_MIN_LENGTH), Validators.pattern(usernamePattern)];
+    return [Validators.required, Validators.pattern(usernamePattern)];
   }
 
   getPasswordValidators() {
-    return [Validators.required, Validators.minLength(this.PASSWORD_MIN_LENGTH), Validators.pattern(passwordPattern)];
+    return [Validators.required, Validators.pattern(passwordPattern)];
   }
 
   getFirstNameValidators() {
-    return [Validators.required, Validators.minLength(this.FIRST_NAME_MIN_LENGTH), Validators.pattern(firstNamePattern)];
+    return [Validators.required, Validators.pattern(firstNamePattern)];
   }
 
   getLastNameValidators() {
-    return [Validators.required, Validators.minLength(this.LAST_NAME_MIN_LENGTH), Validators.pattern(lastNamePattern)];
+    return [Validators.required, Validators.pattern(lastNamePattern)];
   }
 
   getMiddleNameValidators() {
-    return [Validators.required, Validators.minLength(this.MIDDLE_NAME_MIN_LENGTH), Validators.pattern(middleNamePattern)];
+    return [Validators.required, Validators.pattern(middleNamePattern)];
   }
 
   getEmailValidators() {

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {OrganizationRoleInfo} from '../../../../../../../utils/models/organization-role-info';
 import {Subscription} from 'rxjs';
 import {OrganizationService} from '../../../../../services/organization.service';
@@ -16,6 +16,7 @@ import {tc} from '../../../../../../../utils/tc';
   styleUrls: ['./organization-roles.component.less']
 })
 export class OrganizationRolesComponent implements OnInit, OnDestroy {
+  @ViewChild('closeBtn') closeBtn: ElementRef;
   organizationId: number;
   organizationRoles: OrganizationRoleInfo[];
   getSubscription: Subscription;
@@ -68,12 +69,14 @@ export class OrganizationRolesComponent implements OnInit, OnDestroy {
       this.inProgress = false;
       this.toast.success(tc.deleteRoleSuccess.message);
       this.spinner.hide();
+      this.closeBtn.nativeElement.click();
       this.loadOrganizationRoles();
     }, error => {
       this.current = null;
       this.inProgress = false;
       this.spinner.hide();
       this.toast.error(tc.deleteRoleError.message);
+      this.closeBtn.nativeElement.click();
     });
   }
 

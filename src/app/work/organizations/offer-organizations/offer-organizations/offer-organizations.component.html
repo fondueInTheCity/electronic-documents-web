@@ -5,7 +5,7 @@
       My Requests:
     </label>
     <ul *ngIf="userRequests?.length > 0">
-      <li *ngFor="let item of userRequests" class="btn btn-lg btn-block app-button">
+      <li *ngFor="let item of userRequests">
         {{item.ownerUsername}}
       </li>
 
@@ -16,7 +16,7 @@
     </label>
     <ul *ngIf="organizationRequests?.length > 0">
       <li *ngFor="let item of organizationRequests">
-        <button (click)="setCurrent(item)" type="button" class="btn btn-lg btn-block app-button" data-toggle="modal"
+        <button (click)="setCurrent(item)" type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal"
                 data-target="#exampleModal">
           {{item.ownerUsername}}
         </button>
@@ -25,28 +25,30 @@
     </ul>
     <label *ngIf="!organizationRequests || organizationRequests?.length == 0">Nothing requests</label>
 
-    <div *ngIf="current" class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Do you want to approve this request?</h5>
-          </div>
-          <div class="modal-body">
-            <p>
-              {{current?.ownerUsername}}
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-lg btn-block app-button" data-dismiss="modal" [disabled]="disableAnswerButton()"
-                    (click)="sendAnswer(false, current?.id)" >
-              No
-            </button>
-            <button type="button" class="btn btn-lg btn-block app-button" [disabled]="disableAnswerButton()"
-                    (click)="sendAnswer(true, current?.id)">Yes</button>
-          </div>
-        </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Do you want to approve this request?</h5>
+      </div>
+      <div class="modal-body">
+        <p>
+          {{current?.ownerUsername}}
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button hidden #closeBtn data-dismiss="modal"></button>
+        <button type="button" class="btn btn-lg btn-block btn-secondary" data-dismiss="modal" [disabled]="disableAnswerButton()"
+                (click)="sendAnswer(false, current?.id)" >
+          No
+        </button>
+        <button type="button" class="btn btn-lg btn-block btn-primary" [disabled]="disableAnswerButton()"
+                (click)="sendAnswer(true, current?.id)">Yes</button>
       </div>
     </div>
   </div>

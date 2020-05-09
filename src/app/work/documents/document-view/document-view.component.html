@@ -25,6 +25,7 @@
     <div *ngIf="state === 'WAITING'" class="d-flex justify-content-center">
       <div class="list-group text-center">
         <h1>In Waiting</h1>
+        <button class="btn btn-primary btn-lg" (click)="downloadFile()">Download File</button>
         <div class="form-group row">
           <label>Name: {{waitingDocument.name}}</label>
         </div>
@@ -39,6 +40,7 @@
     <div *ngIf="state === 'PENDING'" class="d-flex justify-content-center">
       <div class="list-group text-center">
         <h1>In Progress</h1>
+        <button class="btn btn-primary btn-lg" (click)="downloadFile()">Download File</button>
         <br>
         <label>Document Name: {{pendingDocumentView.name}}</label>
         <br>
@@ -53,17 +55,18 @@
     <div *ngIf="state === 'JOIN_TO_ME'" class="d-flex justify-content-center">
       <div class="list-group text-center">
         <h1>Join To Me</h1>
-        <button *ngIf="!downloaded" (click)="downloadFile()">Download File</button>
+        <button class="btn btn-primary btn-lg" (click)="downloadFile()">Download File</button>
 
-        <button *ngIf="downloaded" (click)="openFile()">Open File</button>
+        <button *ngIf="downloaded" class="btn btn-primary btn-lg" (click)="openFile()">Open File</button>
 
-        <button *ngIf="downloaded" size="large" (click)="onSubmitJoinToMe(false)">Deny</button>
-        <button *ngIf="downloaded" size="large" (click)="onSubmitJoinToMe(true)">Approve</button>
+        <button *ngIf="downloaded" class="btn btn-primary btn-lg" (click)="onSubmitJoinToMe(false)">Deny</button>
+        <button *ngIf="downloaded" class="btn btn-primary btn-lg" (click)="onSubmitJoinToMe(true)">Approve</button>
       </div>
     </div>
     <div *ngIf="state === 'ANSWERED'" class="d-flex justify-content-center">
       <div class="list-group text-center">
         <h1>Organization Document</h1>
+        <button class="btn btn-primary btn-lg" (click)="downloadFile()">Download File</button>
         <br>
         <label>Document Name: {{answeredDocument.name}}</label>
         <br>

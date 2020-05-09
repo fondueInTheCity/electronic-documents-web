@@ -35,7 +35,12 @@ export class DocumentViewComponent implements OnInit, OnDestroy {
   answeredDocument: AnsweredDocumentView;
   allRoles: OrganizationRoleInfo[];
   selectedItems = [];
-  heapForm: FormGroup;
+  heapForm = this.fb.group({
+    id: [],
+    organizationId: [],
+    name: ['', this.properties.getOrganizationDocumentNameValidators()],
+    roles: [null, this.properties.getOrganizationRoleValidators()]
+  });
   joinToMeForm = this.fb.group({
     id: [],
     answer: [null, Validators.required]
@@ -75,12 +80,7 @@ export class DocumentViewComponent implements OnInit, OnDestroy {
       this.state = state;
       if (this.state === 'HEAP') {
         this.getSubscription = this.documentService.getHeapDocument(this.documentId).subscribe((data) => {
-          this.heapForm = this.fb.group({
-            id: [data.id],
-            organizationId: [data.organizationId],
-            name: [data.name, this.properties.getOrganizationDocumentNameValidators()],
-            roles: [null, this.properties.getOrganizationRoleValidators()]
-          });
+          this.heapForm.patchValue(data)
           this.allRoles = data.allRoles;
           this.heapDocument = data;
           this.show = true;

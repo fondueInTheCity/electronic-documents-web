@@ -5,47 +5,47 @@
     <div class="form-group">
       <label>
         First Name
-        <input type="text" class="form-control" name="firstName" formControlName="firstName" required/>
       </label>
+      <input type="text" class="form-control" name="firstName" formControlName="firstName" required/>
       <app-error-messages [controlName]="'firstName'" [control]="signupForm.controls.firstName"></app-error-messages>
     </div>
     <div class="form-group">
       <label>
         Middle Name
-        <input type="text" class="form-control" name="middleName" formControlName="middleName" required/>
       </label>
+      <input type="text" class="form-control" name="middleName" formControlName="middleName" required/>
       <app-error-messages [controlName]="'middleName'" [control]="signupForm.controls.middleName"></app-error-messages>
     </div>
     <div class="form-group">
       <label>
         Last Name
-        <input type="text" class="form-control" name="lastName" formControlName="lastName" required/>
       </label>
+      <input type="text" class="form-control" name="lastName" formControlName="lastName" required/>
       <app-error-messages [controlName]="'lastName'" [control]="signupForm.controls.lastName"></app-error-messages>
     </div>
     <div class="form-group">
       <label>
         Username
-        <input type="text" class="form-control" name="username" formControlName="username" required/>
       </label>
+      <input type="text" class="form-control" name="username" formControlName="username" required/>
       <app-error-messages [controlName]="'username'" [control]="signupForm.controls.username"></app-error-messages>
     </div>
     <div class="form-group">
       <label>
         Email
-        <input type="text" class="form-control" name="email" formControlName="email" required email/>
       </label>
+      <input type="text" class="form-control" name="email" formControlName="email" required email/>
       <app-error-messages [controlName]="'email'" [control]="signupForm.controls.email"></app-error-messages>
     </div>
     <div class="form-group">
       <label>
         Password
-        <input type="password" class="form-control" name="password" formControlName="password" required minlength="6"/>
       </label>
+      <input type="password" class="form-control" name="password" formControlName="password" required minlength="6"/>
       <app-error-messages [controlName]="'password'" [control]="signupForm.controls.password"></app-error-messages>
     </div>
     <div class="form-group">
-      <button [disabled]="disableSignUpButton()" class="btn btn-lg btn-block app-button">Register</button>
+      <button [disabled]="disableSignUpButton()" class="btn btn-primary btn-lg btn-block">Register</button>
     </div>
   </form>
 </div>

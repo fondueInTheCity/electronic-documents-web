@@ -30,7 +30,7 @@
     </tr>
     </tbody>
   </table>
-  <button data-toggle="modal" data-target="#createNewRole">New Role</button>
+  <button data-toggle="modal" class="btn btn-primary" data-target="#createNewRole">New Role</button>
 
   <div *ngIf="renameRoleForm" class="modal fade" id="renameRoleModal" tabindex="-1" role="dialog"
        aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -75,6 +75,7 @@
           Delete role.
         </div>
         <div class="modal-footer">
+          <button hidden #closeBtn data-dismiss="modal"></button>
           <button type="button" class="btn btn-secondary" [disabled]="inProgress" data-dismiss="modal">
             No
           </button>

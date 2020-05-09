@@ -12,7 +12,7 @@
         <p>
           <label>Owner Username: {{i?.ownerUsername}}</label>
           <br>
-          <a (click)="saveOrganizationId(i.id)" class="app-link" [routerLink]="['./', i.id, 'members']">To Organization view</a>
+          <a (click)="saveOrganizationId(i.id)" class="btn btn-primary btn-block btn-lg" [routerLink]="['./', i.id, 'general']">To Organization view</a>
         </p>
       </div>
     </div>

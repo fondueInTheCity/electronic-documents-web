@@ -16,6 +16,7 @@ import {tc} from '../../../../utils/tc';
   styleUrls: ['./offer-organizations.component.less']
 })
 export class OfferOrganizationsComponent implements OnInit, OnDestroy {
+  @ViewChild('closeBtn') closeBtn: ElementRef;
   getSubscription: Subscription;
   answerSubscription: Subscription;
   userRequests: OrganizationOffer[];
@@ -51,10 +52,12 @@ export class OfferOrganizationsComponent implements OnInit, OnDestroy {
         this.toast.success(tc.answerSuccess.message);
         this.current = null;
         this.getRequests();
+        this.closeBtn.nativeElement.click();
       }, error => {
         this.inProgress = false;
         this.current = null;
         this.spinner.hide();
+        this.closeBtn.nativeElement.click();
         this.toast.error(tc.answerError.message);
       });
   }
