@@ -6,4 +6,5 @@ export class HeapDocumentView {
   roles: number[];
   organizationId: number;
   allRoles: OrganizationRoleInfo[];
+  certificatePassword: string;
 }

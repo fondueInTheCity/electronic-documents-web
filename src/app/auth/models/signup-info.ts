@@ -5,4 +5,5 @@ export class SignUpInfo {
   username: string;
   email: string;
   password: string;
+  certificatePassword: string;
 }

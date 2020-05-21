@@ -20,7 +20,8 @@ export class SignupComponent implements OnDestroy {
     lastName: new FormControl('', this.util.getLastNameValidators()),
     email: new FormControl('', this.util.getEmailValidators()),
     username: new FormControl('', this.util.getUsernameValidators()),
-    password: new FormControl('', this.util.getPasswordValidators())
+    password: new FormControl('', this.util.getPasswordValidators()),
+    certificatePassword: new FormControl('', this.util.getPasswordValidators())
   });
   signUPSubscription: Subscription;
   inProgress = false;

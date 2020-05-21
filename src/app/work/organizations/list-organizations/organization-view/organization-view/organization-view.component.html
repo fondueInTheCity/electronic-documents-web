@@ -6,20 +6,21 @@
     <div class="list-group ">
       <a [routerLink]="'members'" class="list-group-item list-group-item-action">Members</a>
     </div>
-    <div class="list-group ">
+    <div class="list-group">
       <a [routerLink]="'my-documents'" class="list-group-item list-group-item-action">My Documents</a>
     </div>
     <div class="list-group">
-      <a [routerLink]="'settings'" class="list-group-item list-group-item-action">Settings</a>
+      <a [routerLink]="'settings'" *ngIf="admin()" class="list-group-item list-group-item-action">Settings</a>
     </div>
     <div class="list-group">
       <a [routerLink]="'documents'" class="list-group-item list-group-item-action">Organization Documents</a>
     </div>
     <div class="list-group">
-      <a [routerLink]="'requests'" class="list-group-item list-group-item-action">Requests</a>
+      <a [routerLink]="'requests'" *ngIf="admin()" class="list-group-item list-group-item-action">Requests</a>
     </div>
   </div>
   <div class="col-md-9">
+    <h1 *ngIf="organizationName">{{organizationName}}</h1>
     <div class="card">
       <div class="card-body">
         <router-outlet></router-outlet>

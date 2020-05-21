@@ -1,1 +1,11 @@
-<p>organization-general works!</p>
+<ngx-spinner></ngx-spinner>
+<div *ngIf="organizationGeneral">
+  <h1 class="pb-4">{{organizationGeneral.organizationName}}</h1>
+  <h2>Your roles in this organization</h2>
+  <ol>
+    <li *ngFor="let roleName  of organizationGeneral.roles">
+      {{roleName}}
+    </li>
+  </ol>
+  <h5 *ngIf="organizationGeneral.roles.length == 0">Nothing</h5>
+</div>

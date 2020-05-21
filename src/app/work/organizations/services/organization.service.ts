@@ -16,6 +16,7 @@ import {OrganizationRequestsView} from '../../../utils/models/organization-reque
 import {CreateOrganizationRequest} from '../../../utils/models/create-organization-request';
 import {RenameOrganizationRole} from '../../../utils/models/rename-organization-role';
 import {CreateOrganizationRole} from '../../../utils/models/create-organization-role';
+import {OrganizationGeneral} from '../../../utils/models/organization-general';
 
 @Injectable({
   providedIn: 'root'
@@ -99,5 +100,14 @@ export class OrganizationService {
 
   createOrganizationRole(createOrganizationRole: CreateOrganizationRole): Observable<void> {
     return this.http.post<void>(`${environment.serverUrl}/organizations/roles/create`, createOrganizationRole);
+  }
+
+  getOrganizationGeneral(organizationId: number): Observable<OrganizationGeneral> {
+    return this.http.get<OrganizationGeneral>(`${environment.serverUrl}/organizations/${organizationId}/general`);
+  }
+
+  getOrganizationNameById(organizationId: number): Observable<string> {
+    return this.http.get<string>(`${environment.serverUrl}/organizations/${organizationId}/name`,
+      {responseType: 'text' as 'json'});
   }
 }

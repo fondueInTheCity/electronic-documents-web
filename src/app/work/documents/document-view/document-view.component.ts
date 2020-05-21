@@ -12,7 +12,7 @@ import {WaitingDocumentView} from '../../../utils/models/waiting-document-view';
 import {PendingDocumentView} from '../../../utils/models/pending-document-view';
 import {JoinToMeDocumentView} from '../../../utils/models/join-to-me-document-view';
 import {AnsweredDocumentView} from '../../../utils/models/answered-document-view';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {mergeMap, tap} from 'rxjs/operators';
 import {ListItem} from 'ng-multiselect-dropdown/multiselect.model';
 import {NgxSpinnerService} from 'ngx-spinner';
@@ -39,11 +39,13 @@ export class DocumentViewComponent implements OnInit, OnDestroy {
     id: [],
     organizationId: [],
     name: ['', this.properties.getOrganizationDocumentNameValidators()],
-    roles: [null, this.properties.getOrganizationRoleValidators()]
+    roles: [null, this.properties.getOrganizationRoleValidators()],
+    certificatePassword: new FormControl('', this.properties.getPasswordValidators())
   });
   joinToMeForm = this.fb.group({
     id: [],
-    answer: [null, Validators.required]
+    answer: [null, Validators.required],
+    certificatePassword: new FormControl('', this.properties.getPasswordValidators())
   });
   downloaded = false;
   fileExists = false;
@@ -80,7 +82,7 @@ export class DocumentViewComponent implements OnInit, OnDestroy {
       this.state = state;
       if (this.state === 'HEAP') {
         this.getSubscription = this.documentService.getHeapDocument(this.documentId).subscribe((data) => {
-          this.heapForm.patchValue(data)
+          this.heapForm.patchValue(data);
           this.allRoles = data.allRoles;
           this.heapDocument = data;
           this.show = true;
@@ -123,7 +125,7 @@ export class DocumentViewComponent implements OnInit, OnDestroy {
     this.properties.unsubscribe(this.getSubscription);
     const value = this.heapForm.value;
     this.getSubscription = this.documentService.approveUserHeapDocument({id: value.id, organizationId: value.organizationId,
-    name: value.name, roles: [+value.roles], allRoles: []}).subscribe(_ => {
+    name: value.name, roles: [+value.roles], allRoles: [], certificatePassword: value.certificatePassword}).subscribe(_ => {
       this.state = 'WAITING';
       this.inProgress = false;
       this.spinner.hide();
@@ -155,7 +157,8 @@ export class DocumentViewComponent implements OnInit, OnDestroy {
   onSubmitJoinToMe(answer: boolean) {
     this.inProgress = true;
     this.spinner.show();
-    this.documentService.sendAnswer(this.documentId, {answer}).subscribe(_ => {
+    this.documentService.sendAnswer(this.documentId,
+      {answer, certificatePassword: this.joinToMeForm.value.certificatePassword}).subscribe(_ => {
       this.inProgress = false;
       this.spinner.hide();
       this.router.navigate(['./../']);
