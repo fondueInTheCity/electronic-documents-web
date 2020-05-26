@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  serverUrl: 'https://07c40e2b.ngrok.io'
+  serverUrl: 'https://6c91557d.ngrok.io'
 };
