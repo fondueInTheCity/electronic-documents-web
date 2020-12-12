@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://myapp-main:8080'
+  serverUrl: 'http://172.17.53.209:8080'
 };
 
 /*
